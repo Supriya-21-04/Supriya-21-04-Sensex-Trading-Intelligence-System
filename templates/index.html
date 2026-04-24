@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALGOBOT Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon"><i class="fa-solid fa-robot"></i></div>
+                <h2>ALGOBOT</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-target="market-overview">
+                    <i class="fa-solid fa-chart-line"></i> Market Overview
+                </button>
+                <button class="nav-btn" data-target="sentiment-analysis">
+                    <i class="fa-solid fa-newspaper"></i> Sentiment Analysis
+                </button>
+                <button class="nav-btn" data-target="agent-performance">
+                    <i class="fa-solid fa-gauge-high"></i> Agent Performance
+                </button>
+                <button class="nav-btn" data-target="paper-trading">
+                    <i class="fa-solid fa-money-bill-trend-up"></i> Paper Trading
+                </button>
+                <button class="nav-btn" data-target="control-panel">
+                    <i class="fa-solid fa-server"></i> Control Panel
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>Status: <span class="status-indicator online"></span> Online</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="topbar">
+                <h1 id="page-title">Market Overview</h1>
+            </header>
+
+            <div class="content-wrapper">
+                
+                <!-- SECTION: Market Overview -->
+                <section id="market-overview" class="page-section active">
+                    <div class="card glass-panel flex-row">
+                        <div class="lottie-container" id="finance-lottie"></div>
+                        <div class="chart-container" id="sensex-price-chart">
+                            <div class="loader">Loading chart...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Sentiment Analysis -->
+                <section id="sentiment-analysis" class="page-section hidden">
+                    <div class="grid-2">
+                        <div class="card glass-panel col">
+                            <h3>Current Sentiment</h3>
+                            <div class="chart-container" id="sentiment-gauge-chart">
+                                <div class="loader">Loading gauge...</div>
+                            </div>
+                        </div>
+                        <div class="card glass-panel col">
+                            <h3>Historical Sentiment Trend</h3>
+                            <div class="chart-container" id="sentiment-trend-chart">
+                                <div class="loader">Loading trend...</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Agent Performance -->
+                <section id="agent-performance" class="page-section hidden">
+                    <h2 class="section-title">Strategy Comparison</h2>
+                    <div class="grid-3" id="metrics-cards-container">
+                        <div class="loader">Loading metrics...</div>
+                    </div>
+                    
+                    <h2 class="section-title mt-4">Recent Trades Log</h2>
+                    <div class="card glass-panel table-container">
+                        <table class="data-table" id="trade-log-table">
+                            <thead>
+                                <tr>
+                                    <th>Step</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                    <th>Price</th>
+                                    <th>Shares</th>
+                                    <th>Balance</th>
+                                    <th>Net Worth</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SECTION: Paper Trading Simulation -->
+                <section id="paper-trading" class="page-section hidden">
+                    <p class="subtitle">Timeline and historical trades taken by the RL agent overlaid on market prices.</p>
+                    <div class="card glass-panel">
+                        <div class="chart-container huge" id="paper-trading-chart">
+                            <div class="loader">Loading backtest visualization...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: Control Panel -->
+                <section id="control-panel" class="page-section hidden">
+                    <p class="subtitle">Trigger backend scripts directly from here.</p>
+                    <div class="grid-2">
+                        <div class="card glass-panel">
+                            <h3><i class="fa-solid fa-database text-blue"></i> Data Pipeline</h3>
+                            <div class="operations-list">
+                                <button class="action-btn" onclick="runScript('fetch_sensex_data.py', this)">
+                                    Fetch Sensex Data <span><i class="fa-solid fa-play"></i></span>
+                                </button>
+                                <button class="action-btn" onclick="runScript('fetch_news.py', this)">
+                                    Fetch News <span><i class="fa-solid fa-play"></i></span>
+                                </button>
+                                <button class="action-btn" onclick="runScript('score_sentiment.py', this)">
+                                    Score Sentiment (FinBERT) <span><i class="fa-solid fa-play"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card glass-panel">
+                            <h3><i class="fa-solid fa-brain text-purple"></i> RL Bot Engine</h3>
+                            <div class="operations-list">
+                                <button class="action-btn" onclick="runScript('split_data.py', this)">
+                                    Engineer Features & Split Data <span><i class="fa-solid fa-play"></i></span>
+                                </button>
+                                <button class="action-btn" onclick="runScript('train_ppo.py', this)">
+                                    Train PPO Agent <span><i class="fa-solid fa-play"></i></span>
+                                </button>
+                                <button class="action-btn" onclick="runScript('evaluate_agent.py', this)">
+                                    Evaluate Agent <span><i class="fa-solid fa-play"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terminal Output Component -->
+                    <div class="card terminal glass-panel mt-4 hidden" id="terminal-output-container">
+                        <div class="terminal-header">
+                            <span><i class="fa-solid fa-terminal"></i> Console Output</span>
+                            <button class="close-terminal-btn" onclick="closeTerminal()"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <pre id="terminal-body" class="terminal-body">Waiting for input...</pre>
+                    </div>
+
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Main Logic -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

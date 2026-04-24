@@ -1,0 +1,17 @@
+yfinance
+pandas
+requests
+feedparser
+python-dotenv
+matplotlib
+torch
+transformers
+ta
+gymnasium
+stable-baselines3
+streamlit
+plotly
+streamlit-lottie
+
+fastapi
+uvicorn
