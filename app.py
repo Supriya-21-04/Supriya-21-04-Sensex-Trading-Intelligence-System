@@ -104,7 +104,7 @@ with st.sidebar:
     
     page = st.radio(
         "Navigation",
-        ["🏠 Market Overview", "🧠 Sentiment Analysis", "🤖 Agent Performance", "💸 Paper Trading", "⚙️ Control Panel"],
+        ["🏠 Market Overview", "🧠 Sentiment Analysis", "💸 Paper Trading", "⚙️ Control Panel"],
         index=0
     )
     
@@ -198,23 +198,6 @@ elif page == "🧠 Sentiment Analysis":
             )
         
         st.info("✨ **Note**: Scores are generated using a FinBERT + VADER ensemble with Exponential Time-Decay.")
-
-elif page == "🤖 Agent Performance":
-    st.title("🤖 RL Bot Performance")
-    metrics = load_json("data/processed/rl_metrics.json")
-    
-    if metrics:
-        m1, m2, m3, m4 = st.columns(4)
-        m1.metric("Final Portfolio", f"₹{metrics['Final Value']:.2f}")
-        m2.metric("Total Return", f"{metrics['Total Return (%)']:.2f}%")
-        m3.metric("Sharpe Ratio", f"{metrics['Sharpe Ratio']:.2f}")
-        m4.metric("Win Rate", f"{metrics['Win Rate (%)']:.2f}%")
-        
-        st.markdown("---")
-        st.subheader("📈 Equity Growth vs Benchmark")
-        st.plotly_chart(plot_equity_curve(metrics), width='stretch')
-    else:
-        st.warning("⚠️ No evaluation metrics found. Please run 'Evaluate Agent' in the Control Panel.")
 
 elif page == "💸 Paper Trading":
     st.title("💸 Live Simulation (Paper Trading)")
