@@ -164,7 +164,7 @@ elif page == "🧠 Sentiment Analysis":
     metrics = load_json("data/processed/metrics.json")
     
     if score_df is not None and not score_df.empty:
-        col1, col2 = st.columns([1, 2])
+        col1, col2 = st.columns([1, 1])
         
         latest_score = metrics.get('Current_Exponential_Sentiment', 0) if metrics else 0
             
@@ -174,12 +174,6 @@ elif page == "🧠 Sentiment Analysis":
             st.plotly_chart(plot_sentiment_gauge(latest_score), width='stretch')
             sentiment_text = "Bullish" if latest_score > 0.1 else ("Bearish" if latest_score < -0.1 else "Neutral")
             st.write(f"**Overall Status**: {sentiment_text}")
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-        with col2:
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.subheader("Historical Sentiment Trend")
-            st.line_chart(score_df.set_index('Date') if 'Date' in score_df.columns else score_df)
             st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown("---")
