@@ -109,7 +109,7 @@ with st.sidebar:
     )
     
     st.markdown("---")
-    st.info("💡 **Architecture**: Phase 1 NLP + Phase 2 Features + PPO RL Engine")
+
 
 # --- Page Logic ---
 
