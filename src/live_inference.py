@@ -26,7 +26,11 @@ def main():
     # 1. Load the most recent data point
     df = pd.read_csv(master_path)
     latest_row = df.iloc[-1:]
-    latest_date = latest_row['Date'].values[0]
+    latest_data_date = latest_row['Date'].values[0]
+    
+    # Use today's date as the prediction date
+    from datetime import datetime
+    today_date = datetime.now().strftime("%Y-%m-%d")
 
     # 2. Load the trained model
     if not os.path.exists(model_path):
@@ -38,7 +42,7 @@ def main():
     # 3. Initialize environment to get the observation space format
     env = SensexTradingEnv(df=df)
     
-    # 4. Get the state for the latest date
+    # 4. Get the state for the latest date (yesterday's data to predict today)
     # We need to manually construct the observation vector as the env expects it
     obs_features = []
     for col in env.feature_cols:
@@ -55,7 +59,8 @@ def main():
     
     # 6. Save result for dashboard
     inference_result = {
-        "latest_date": str(latest_date),
+        "data_date": str(latest_data_date),  # Date of the data we used
+        "prediction_date": str(today_date), # Date we're predicting for
         "signal": signal,
         "action_code": int(action),
         "confidence": "High (PPO Policy Consensus)" # PPO doesn't give simple probabilities like softmax easily
@@ -72,7 +77,7 @@ def main():
     with open(metrics_path, 'w') as f:
         json.dump(metrics, f, indent=4)
         
-    logging.info(f"LIVE INFERENCE for {latest_date}: {signal}")
+    logging.info(f"LIVE INFERENCE: Using data from {latest_data_date} to predict for {today_date}: {signal}")
 
 if __name__ == "__main__":
     main()

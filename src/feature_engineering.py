@@ -23,7 +23,7 @@ def main():
     os.makedirs(output_dir, exist_ok=True)
 
     logging.info("Loading Raw Price Data...")
-    df = pd.read_csv(price_path)
+    df = pd.read_csv(price_path, encoding='utf-8')
     
     # Ensure proper datetime index for pandas-ta
     df['Date'] = pd.to_datetime(df['Date'])
@@ -74,7 +74,7 @@ def main():
     # We use Left merge because we want all trading dates, even if sentiment is missing.
     logging.info("Merging with Sentiment Data...")
     if os.path.exists(sentiment_path):
-        sentiment_df = pd.read_csv(sentiment_path)
+        sentiment_df = pd.read_csv(sentiment_path, encoding='utf-8')
         sentiment_df['Date'] = pd.to_datetime(sentiment_df['Date'])
         
         # Merge on Date
@@ -127,7 +127,7 @@ def main():
     
     # 6. Save Master Dataset
     master_path = os.path.join(output_dir, 'master_dataset.csv')
-    df.to_csv(master_path, index=False)
+    df.to_csv(master_path, index=False, encoding='utf-8')
     logging.info(f"Saved master dataset with {len(df)} rows (dropped {initial_count - len(df)} rows due to rolling window).")
 
 if __name__ == "__main__":

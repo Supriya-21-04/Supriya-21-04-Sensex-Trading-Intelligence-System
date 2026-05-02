@@ -91,7 +91,7 @@ def main():
         return
 
     # 1. Load Data
-    news_df = pd.read_csv(news_path)
+    news_df = pd.read_csv(news_path, encoding='utf-8')
     news_df['Date'] = pd.to_datetime(news_df['Date']).dt.date
     
     # 2. Init Analyzers
@@ -116,17 +116,19 @@ def main():
     print("=" * 60)
     
     for idx, row in news_df.iterrows():
-        text_to_analyze = str(row.get('Full_Text', row['Headline']))
-        headline = str(row['Headline'])
+        # Clean text to handle encoding issues
+        text_to_analyze = str(row.get('Full_Text', row['Headline'])).encode('ascii', 'ignore').decode('ascii')
+        headline = str(row['Headline']).encode('ascii', 'ignore').decode('ascii')
         
-        # apply spaCy NER filter as per Phase 1 diagram
-        if not spacy_ner_filter(text_to_analyze):
-            logging.debug(f"Filtering out non-market news: {headline[:50]}...")
-            sentiments.append(0.0)
-            continue
-            
-        filtered_indices.append(idx)
         try:
+            # apply spaCy NER filter as per Phase 1 diagram
+            if not spacy_ner_filter(text_to_analyze):
+                logging.debug(f"Filtering out non-market news: {headline[:50]}...")
+                sentiments.append(0.0)
+                continue
+                
+            filtered_indices.append(idx)
+            
             # FinBERT Score (Core of Phase 1)
             fb_res = finbert_analyzer(text_to_analyze)[0]
             fb_score = map_score(fb_res['label'], fb_res['score'])
@@ -145,6 +147,11 @@ def main():
             logging.error(f"Error processing article: {headline[:30]}... -> {e}")
             sentiments.append(0.0)
 
+    # Ensure sentiments list matches the DataFrame length exactly
+    while len(sentiments) < len(news_df):
+        sentiments.append(0.0)
+    sentiments = sentiments[:len(news_df)]
+    
     news_df['Sentiment'] = sentiments
     logging.info(f"Phase 1 Complete: {len(filtered_indices)} articles passed NER filter.")
     
@@ -174,19 +181,19 @@ def main():
 
     # Save the individual fully scored raw headlines
     scored_raw_path = os.path.join(processed_dir, 'news_headlines_scored.csv')
-    news_df.to_csv(scored_raw_path, index=False)
+    news_df.to_csv(scored_raw_path, index=False, encoding='utf-8')
     
     # Save the global weighted score to a small JSON for the dashboard gauge
     import json
     metrics_path = os.path.join(processed_dir, 'metrics.json')
     if os.path.exists(metrics_path):
-        with open(metrics_path, 'r') as f:
+        with open(metrics_path, 'r', encoding='utf-8') as f:
             metrics = json.load(f)
     else:
         metrics = {}
     
     metrics['Current_Exponential_Sentiment'] = global_weighted_score
-    with open(metrics_path, 'w') as f:
+    with open(metrics_path, 'w', encoding='utf-8') as f:
         json.dump(metrics, f, indent=4)
 
     # 5. Group by Date & Ticker, Aggregate via Mean (for the trend line)
@@ -195,7 +202,7 @@ def main():
     
     # 6. Overlap with 5-Year Price Date Index
     logging.info("Aligning with OHLCV 5-year timeline...")
-    price_df = pd.read_csv(price_path)
+    price_df = pd.read_csv(price_path, encoding='utf-8')
     price_df['Date'] = pd.to_datetime(price_df['Date']).dt.date
     
     # Create master timeframe df
@@ -217,7 +224,7 @@ def main():
 
     # Save final daily sentiment
     final_csv_path = os.path.join(processed_dir, 'daily_sentiment.csv')
-    final_df.to_csv(final_csv_path, index=False)
+    final_df.to_csv(final_csv_path, index=False, encoding='utf-8')
     logging.info(f"Saved daily sentiment to {os.path.normpath(final_csv_path)}")
 
     # 7. Plot Sentiment Timeline over 5 years

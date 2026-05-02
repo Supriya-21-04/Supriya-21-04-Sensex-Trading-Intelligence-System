@@ -36,7 +36,7 @@ def main():
     os.makedirs(output_dir, exist_ok=True)
     
     csv_path = os.path.join(output_dir, 'sensex_ohlcv.csv')
-    data.to_csv(csv_path)
+    data.to_csv(csv_path, encoding='utf-8')
     logging.info(f"Data saved successfully to {os.path.normpath(csv_path)}")
     
     # Log dataset shape and date range

@@ -146,7 +146,7 @@ class NewsFetcher:
         os.makedirs(output_dir, exist_ok=True)
         
         csv_path = os.path.join(output_dir, 'news_headlines.csv')
-        df.to_csv(csv_path, index=False)
+        df.to_csv(csv_path, index=False, encoding='utf-8')
         logging.info(f"Successfully saved {len(df)} headlines to {os.path.normpath(csv_path)}")
 
 def main():
