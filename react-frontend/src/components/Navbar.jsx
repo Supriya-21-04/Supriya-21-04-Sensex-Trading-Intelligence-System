@@ -11,70 +11,34 @@ const Navbar = () => {
   ]
 
   return (
-    <nav style={styles.nav}>
-      <div style={styles.logo}>
-        <img 
-          src="https://www.bseindia.com/images/BSE_Logo.png" 
-          alt="BSE Logo" 
-          style={styles.logoImg} 
+    <header className="topnav">
+      <div className="topnav__brand">
+        <img
+          src="https://www.bseindia.com/images/BSE_Logo.png"
+          alt="BSE Logo"
+          className="topnav__logo"
         />
-        <span style={styles.title}>Intelligence System</span>
+        <div className="topnav__titles">
+          <span className="topnav__title">Intelligence System</span>
+        </div>
       </div>
-      <div style={styles.links}>
+      <nav className="topnav__links" aria-label="Primary">
         {navItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
-            style={{
-              ...styles.link,
-              ...(location.pathname === item.path ? styles.activeLink : {}),
-            }}
+            className={
+              location.pathname === item.path
+                ? 'topnav__link topnav__link--active'
+                : 'topnav__link'
+            }
           >
             {item.label}
           </Link>
         ))}
-      </div>
-    </nav>
+      </nav>
+    </header>
   )
-}
-
-const styles = {
-  nav: {
-    backgroundColor: '#11141c',
-    padding: '15px 30px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottom: '1px solid #3e4250',
-  },
-  logo: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-  },
-  logoImg: {
-    width: '60px',
-    height: 'auto',
-  },
-  title: {
-    fontSize: '20px',
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  links: {
-    display: 'flex',
-    gap: '25px',
-  },
-  link: {
-    color: '#808495',
-    textDecoration: 'none',
-    fontSize: '16px',
-    transition: 'color 0.2s',
-  },
-  activeLink: {
-    color: '#2e7bcf',
-    fontWeight: '600',
-  },
 }
 
 export default Navbar

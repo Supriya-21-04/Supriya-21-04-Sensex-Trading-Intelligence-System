@@ -1,0 +1,11 @@
+{
+  "name": "sensex-trading-intelligence",
+  "private": true,
+  "description": "Root helpers — the Vite app lives in react-frontend/",
+  "scripts": {
+    "dev": "npm run dev --prefix react-frontend",
+    "build": "npm run build --prefix react-frontend",
+    "preview": "npm run preview --prefix react-frontend",
+    "install:frontend": "npm install --prefix react-frontend"
+  }
+}

@@ -54,7 +54,7 @@ def main():
     # 5. Predict Action
     action, _states = model.predict(obs, deterministic=True)
     
-    action_map = {0: "FLAT / WAIT", 1: "BUY / LONG", 2: "SELL / SHORT"}
+    action_map = {0: "HOLD", 1: "BUY", 2: "SELL"}
     signal = action_map[int(action)]
     
     # 6. Save result for dashboard

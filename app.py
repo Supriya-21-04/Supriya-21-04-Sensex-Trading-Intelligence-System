@@ -114,7 +114,8 @@ def run_full_pipeline():
         "src/fetch_news.py",
         "src/score_sentiment.py",
         "src/feature_engineering.py",
-        "src/live_inference.py"
+        "src/live_inference.py",
+        "src/explain_live_signal.py"
     ]
     
     # Execute each script
@@ -198,6 +199,12 @@ if page == "🏠 Home & Overview":
                     </p>
                 </div>
             """, unsafe_allow_html=True)
+            explanation = inf.get('explanation')
+            factors = inf.get('key_factors', [])
+            if explanation:
+                st.info(f"🧾 Why this signal: {explanation}")
+            if isinstance(factors, list) and factors:
+                st.caption("Key factors: " + " | ".join([str(item) for item in factors[:5]]))
             
         # Top Row Metrics
         st.subheader("📊 Today's Key Numbers")

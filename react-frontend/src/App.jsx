@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="app">
       <Navbar />
-      <main style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
+      <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/news" element={<News />} />

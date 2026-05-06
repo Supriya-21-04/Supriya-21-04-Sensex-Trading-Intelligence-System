@@ -8,6 +8,83 @@ from trading_env import SensexTradingEnv
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
+def calculate_directional_accuracy(env_df: pd.DataFrame, trade_log: list[dict]) -> dict:
+    """
+    Directional accuracy: does the action (LONG/SHORT) match the next-day Close move sign?
+    - LONG is "correct" if next-day return > 0
+    - SHORT is "correct" if next-day return < 0
+    FLAT is excluded from accuracy by default (reported separately).
+    """
+    if env_df is None or env_df.empty or not trade_log:
+        return {
+            "Evaluated Steps": 0,
+            "Directional Accuracy (LONG/SHORT only) (%)": 0.0,
+            "LONG Accuracy (%)": 0.0,
+            "SHORT Accuracy (%)": 0.0,
+            "Action Mix (%)": {"FLAT": 0.0, "LONG": 0.0, "SHORT": 0.0},
+        }
+
+    df = env_df.reset_index(drop=True).copy()
+    if "Close" not in df.columns:
+        raise ValueError("env_df must contain a 'Close' column for accuracy evaluation.")
+
+    # Map trade_log rows to step indices in env_df (trade_log is produced per step in run_simulation).
+    n = min(len(trade_log), len(df) - 1)  # need i+1 for next-day return
+    if n <= 0:
+        return {
+            "Evaluated Steps": 0,
+            "Directional Accuracy (LONG/SHORT only) (%)": 0.0,
+            "LONG Accuracy (%)": 0.0,
+            "SHORT Accuracy (%)": 0.0,
+            "Action Mix (%)": {"FLAT": 0.0, "LONG": 0.0, "SHORT": 0.0},
+        }
+
+    closes = df["Close"].astype(float).values
+
+    action_counts = {"FLAT": 0, "LONG": 0, "SHORT": 0}
+    correct_total = 0
+    eligible_total = 0
+
+    long_correct = 0
+    long_total = 0
+    short_correct = 0
+    short_total = 0
+
+    for i in range(n):
+        action = str(trade_log[i].get("Action_Target", "FLAT")).upper()
+        if action not in action_counts:
+            action = "FLAT"
+
+        action_counts[action] += 1
+
+        next_ret = (closes[i + 1] / closes[i]) - 1.0 if closes[i] != 0 else 0.0
+
+        if action == "LONG":
+            eligible_total += 1
+            long_total += 1
+            if next_ret > 0:
+                correct_total += 1
+                long_correct += 1
+        elif action == "SHORT":
+            eligible_total += 1
+            short_total += 1
+            if next_ret < 0:
+                correct_total += 1
+                short_correct += 1
+
+    action_mix = {k: (v / n) * 100.0 for k, v in action_counts.items()}
+    directional_acc = (correct_total / eligible_total) * 100.0 if eligible_total > 0 else 0.0
+    long_acc = (long_correct / long_total) * 100.0 if long_total > 0 else 0.0
+    short_acc = (short_correct / short_total) * 100.0 if short_total > 0 else 0.0
+
+    return {
+        "Evaluated Steps": int(n),
+        "Directional Accuracy (LONG/SHORT only) (%)": float(directional_acc),
+        "LONG Accuracy (%)": float(long_acc),
+        "SHORT Accuracy (%)": float(short_acc),
+        "Action Mix (%)": {k: float(v) for k, v in action_mix.items()},
+    }
+
 def calculate_metrics(portfolio_values, trades_list=None):
     """Calculates rigorous quantitative metrics for a portfolio trace."""
     portfolio_series = pd.Series(portfolio_values)
@@ -136,6 +213,7 @@ def main():
     test_path = os.path.join(base_dir, '..', 'data', 'splits', 'test.csv')
     model_path = os.path.join(base_dir, '..', 'models', 'ppo_sensex_bot.zip')
     output_dir = os.path.join(base_dir, '..', 'data', 'processed')
+    os.makedirs(output_dir, exist_ok=True)
     
     if not os.path.exists(test_path):
         logging.error(f"Test split not found at {test_path}. Run split_data.py first.")
@@ -160,6 +238,7 @@ def main():
     logging.info("SIMULATING REINFORCEMENT LEARNING AGENT")
     logging.info("="*50)
     rl_metrics, rl_trade_log = run_simulation(test_df, 'RL', ppo_model=model)
+    rl_accuracy = calculate_directional_accuracy(test_df, rl_trade_log)
     
     # Save Trade Log
     log_df = pd.DataFrame(rl_trade_log)
@@ -193,13 +272,29 @@ def main():
 
     for name, metrics in metrics_list:
         print(f"{name:<20} | {metrics['Final Value']:<12.2f} | {metrics['Total Return (%)']:<11.2f} | {metrics['Sharpe Ratio']:<8.2f} | {metrics['Max Drawdown (%)']:<10.2f} | {metrics['Win Rate (%)']:<12.2f}")
+
+    print("\n" + "="*80)
+    print("RL AGENT 'ACCURACY' (DIRECTIONAL HIT-RATE)")
+    print("="*80)
+    print(f"Evaluated Steps: {rl_accuracy['Evaluated Steps']}")
+    print(f"Directional Accuracy (LONG/SHORT only): {rl_accuracy['Directional Accuracy (LONG/SHORT only) (%)']:.2f}%")
+    print(f"LONG Accuracy:  {rl_accuracy['LONG Accuracy (%)']:.2f}%")
+    print(f"SHORT Accuracy: {rl_accuracy['SHORT Accuracy (%)']:.2f}%")
+    mix = rl_accuracy.get("Action Mix (%)", {})
+    print(f"Action Mix: FLAT {mix.get('FLAT', 0.0):.1f}% | LONG {mix.get('LONG', 0.0):.1f}% | SHORT {mix.get('SHORT', 0.0):.1f}%")
     
-    # Save to JSON
+    # Save to JSON (DO NOT overwrite dashboard metrics.json)
     import json
     metrics_dict = {name: m for name, m in metrics_list}
-    json_path = os.path.join(base_dir, '..', 'data', 'processed', 'metrics.json')
-    with open(json_path, 'w') as f:
-        json.dump(metrics_dict, f, indent=4)
+    out = {
+        "evaluation_window": "test.csv (out-of-sample split)",
+        "strategies": metrics_dict,
+        "rl_directional_accuracy": rl_accuracy,
+    }
+    json_path = os.path.join(base_dir, '..', 'data', 'processed', 'rl_evaluation_metrics.json')
+    with open(json_path, 'w', encoding="utf-8") as f:
+        json.dump(out, f, indent=4)
+    print(f"\nSaved RL evaluation metrics to: {os.path.normpath(json_path)}")
         
     print("="*80)
     

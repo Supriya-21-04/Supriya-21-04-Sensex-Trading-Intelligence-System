@@ -23,223 +23,292 @@ const Home = () => {
     }
   }
 
+  const normalizeSignal = (signal) => {
+    const text = String(signal || '').toUpperCase()
+    if (text.includes('SELL')) return 'SELL'
+    if (text.includes('BUY')) return 'BUY'
+    return 'HOLD'
+  }
+
   const getSignalColor = (signal) => {
-    if (signal?.includes('BUY')) return '#00ff00'
-    if (signal?.includes('SELL')) return '#ff4b4b'
-    return '#ffaa00'
+    const normalized = normalizeSignal(signal)
+    if (normalized === 'BUY') return '#34d399'
+    if (normalized === 'SELL') return '#fb7185'
+    return '#fbbf24'
   }
 
   const getCandlestickPlot = () => {
     if (!sensexData || sensexData.length === 0) return null
-    
+
     const last100 = sensexData.slice(-100)
     return (
       <Plot
         data={[
           {
-            x: last100.map(d => d.Date),
-            open: last100.map(d => d.Open),
-            high: last100.map(d => d.High),
-            low: last100.map(d => d.Low),
-            close: last100.map(d => d.Close),
+            x: last100.map((d) => d.Date),
+            open: last100.map((d) => d.Open),
+            high: last100.map((d) => d.High),
+            low: last100.map((d) => d.Low),
+            close: last100.map((d) => d.Close),
             type: 'candlestick',
-            increasing: { line: { color: 'cyan' } },
-            decreasing: { line: { color: 'magenta' } },
-            name: 'SENSEX'
-          }
+            increasing: { line: { color: '#22d3ee' }, fillcolor: '#22d3ee' },
+            decreasing: { line: { color: '#f472b6' }, fillcolor: '#f472b6' },
+            name: 'SENSEX',
+          },
         ]}
         layout={{
-          title: 'Sensex 100-Day Performance',
-          xaxis: { title: 'Date' },
-          yaxis: { title: 'Price' },
+          title: {
+            text: 'Sensex 100-Day Performance',
+            font: { size: 16, color: '#e2e8f0', family: 'Inter, sans-serif' },
+          },
+          xaxis: {
+            title: { text: 'Date', font: { color: '#94a3b8', size: 12 } },
+            gridcolor: 'rgba(148, 163, 184, 0.15)',
+            zeroline: false,
+            color: '#94a3b8',
+          },
+          yaxis: {
+            title: { text: 'Price (₹)', font: { color: '#94a3b8', size: 12 } },
+            gridcolor: 'rgba(148, 163, 184, 0.15)',
+            zeroline: false,
+            color: '#94a3b8',
+          },
           template: 'plotly_dark',
-          plot_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: 'rgba(15,23,42,0.35)',
           paper_bgcolor: 'rgba(0,0,0,0)',
           xaxis_rangeslider_visible: false,
-          height: 500,
-          margin: { t: 50, b: 50, l: 50, r: 50 }
+          height: 480,
+          margin: { t: 48, b: 48, l: 56, r: 24 },
+          font: { family: 'Inter, sans-serif', color: '#cbd5e1' },
         }}
+        config={{ displayModeBar: true, displaylogo: false, responsive: true }}
         useResizeHandler={true}
         style={{ width: '100%', height: '100%' }}
       />
     )
   }
 
-  return (
-    <div>
-      <h1 style={{ marginBottom: '30px' }}>🏠 Welcome to SENSEX Market Overview!</h1>
+  const live = metrics?.Live_Inference
+  const normalizedSignal = normalizeSignal(live?.signal)
+  const signalColor = live ? getSignalColor(normalizedSignal) : undefined
+  const explanationDetails = live?.explanation_details || {}
+  const influentialNews = Array.isArray(explanationDetails.influential_news) ? explanationDetails.influential_news : []
+  const bullishPoints = Array.isArray(explanationDetails.bullish_points) ? explanationDetails.bullish_points : []
+  const bearishPoints = Array.isArray(explanationDetails.bearish_points) ? explanationDetails.bearish_points : []
+  const riskFlags = Array.isArray(explanationDetails.risk_flags) ? explanationDetails.risk_flags : []
 
-      {/* Welcome Expander */}
-      <details style={{ marginBottom: '30px', backgroundColor: '#1e2130', padding: '15px', borderRadius: '10px' }}>
-        <summary style={{ cursor: 'pointer', fontSize: '18px', fontWeight: 'bold' }}>
-          👋 First time here? Click me!
-        </summary>
-        <div style={{ marginTop: '15px', lineHeight: '1.8' }}>
-          <p><strong>What is SENSEX?</strong></p>
-          <p>It's an index that tracks the top 30 companies on the Bombay Stock Exchange (BSE). Think of it like a "report card" for the Indian stock market!</p>
-          <p><strong>What you'll see here:</strong></p>
-          <ul style={{ marginLeft: '20px', marginTop: '10px' }}>
+  return (
+    <div className="page">
+      <header className="page__header">
+        <h1 className="page__title">🏠 Welcome to SENSEX Market Overview!</h1>
+      </header>
+
+      <details className="panel">
+        <summary>👋 First time here? Click me!</summary>
+        <div className="panel__body">
+          <p>
+            <strong>What is SENSEX?</strong>
+          </p>
+          <p>
+            It&apos;s an index that tracks the top 30 companies on the Bombay Stock Exchange (BSE). Think of it like a
+            &quot;report card&quot; for the Indian stock market!
+          </p>
+          <p>
+            <strong>What you&apos;ll see here:</strong>
+          </p>
+          <ul>
             <li>Current market level</li>
-            <li>How it's changed today</li>
+            <li>How it&apos;s changed today</li>
             <li>What our AI thinks about buying/selling</li>
           </ul>
         </div>
       </details>
 
-      {/* Live Signal */}
-      {metrics?.Live_Inference && (
-        <div className="card" style={{
-          borderLeft: `5px solid ${getSignalColor(metrics.Live_Inference.signal)}`,
-        }}>
-          <h2 style={{ margin: '0 0 10px 0', color: getSignalColor(metrics.Live_Inference.signal), fontSize: '24px', fontWeight: '700' }}>
-            🎯 Today's AI Suggestion: {metrics.Live_Inference.signal}
+      {live && (
+        <div
+          className="card card--signal"
+          style={{ '--signal': signalColor }}
+        >
+          <h2 className="signal-title">
+            🎯 Today&apos;s AI Suggestion: {normalizedSignal}
           </h2>
-          <p style={{ margin: '0', color: '#9ca3af' }}>
-            Prediction for {metrics.Live_Inference.prediction_date || metrics.Live_Inference.latest_date} using data from {metrics.Live_Inference.data_date || metrics.Live_Inference.latest_date}
+          <p className="signal-meta">
+            Prediction for {live.prediction_date || live.latest_date} using data from{' '}
+            {live.data_date || live.latest_date}
           </p>
+          {live.explanation && <p className="signal-explanation">{live.explanation}</p>}
+          {Array.isArray(live.key_factors) && live.key_factors.length > 0 && (
+            <div className="factor-list">
+              {live.key_factors.map((factor, idx) => (
+                <span key={`${idx}-${factor}`} className="factor-chip">
+                  {factor}
+                </span>
+              ))}
+            </div>
+          )}
+          {live.explanation_source && (
+            <p className="signal-source">Explanation source: {live.explanation_source}</p>
+          )}
+          {(bullishPoints.length > 0 || bearishPoints.length > 0 || riskFlags.length > 0 || influentialNews.length > 0) && (
+            <div className="panel__body" style={{ marginTop: '0.85rem' }}>
+              {bullishPoints.length > 0 && (
+                <>
+                  <p>
+                    <strong>{normalizedSignal === 'SELL' ? '🔄 What Could Reverse This Signal' : '✅ Bullish Drivers'}</strong>
+                  </p>
+                  <ul>
+                    {bullishPoints.slice(0, normalizedSignal === 'SELL' ? 1 : 6).map((point, idx) => (
+                      <li key={`bull-${idx}-${point}`}>{point}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {bearishPoints.length > 0 && (
+                <>
+                  <p>
+                    <strong>⚠️ Bearish Drivers</strong>
+                  </p>
+                  <ul>
+                    {bearishPoints.slice(0, 6).map((point, idx) => (
+                      <li key={`bear-${idx}-${point}`}>{point}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {riskFlags.length > 0 && (
+                <>
+                  <p>
+                    <strong>🛡️ Risk Flags</strong>
+                  </p>
+                  <ul>
+                    {riskFlags.slice(0, 6).map((point, idx) => (
+                      <li key={`risk-${idx}-${point}`}>{point}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {influentialNews.length > 0 && (
+                <>
+                  <p>
+                    <strong>📰 Most Influential News</strong>
+                  </p>
+                  <ul>
+                    {influentialNews.slice(0, 5).map((item, idx) => {
+                      const headline = item?.headline || 'Untitled headline'
+                      const sentiment = Number(item?.sentiment || 0).toFixed(3)
+                      const why = item?.why_it_matters ? ` — ${item.why_it_matters}` : ''
+                      return (
+                        <li key={`news-${idx}-${headline}`}>
+                          {headline} (sentiment: {sentiment}){why}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </>
+              )}
+            </div>
+          )}
         </div>
       )}
 
-      {/* Metrics */}
       {sensexData && sensexData.length > 0 && (
         <>
-          <h2 style={{ marginBottom: '20px' }}>📊 Today's Key Numbers</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '30px' }}>
-            <MetricCard 
-              label="Current SENSEX" 
-              value={Number(sensexData[sensexData.length - 1].Close).toFixed(2)} 
-              helpText="The current 'score' of the market" 
+          <h2 className="section-title">📊 Today&apos;s Key Numbers</h2>
+          <div className="metric-grid">
+            <MetricCard
+              label="Current SENSEX"
+              value={Number(sensexData[sensexData.length - 1].Close).toFixed(2)}
+              helpText="The current 'score' of the market"
             />
-            <MetricCard 
-              label="Highest Today" 
-              value={Number(sensexData[sensexData.length - 1].High).toFixed(2)} 
-              helpText="The highest point reached today" 
+            <MetricCard
+              label="Highest Today"
+              value={Number(sensexData[sensexData.length - 1].High).toFixed(2)}
+              helpText="The highest point reached today"
             />
-            <MetricCard 
-              label="Lowest Today" 
-              value={Number(sensexData[sensexData.length - 1].Low).toFixed(2)} 
-              helpText="The lowest point today" 
+            <MetricCard
+              label="Lowest Today"
+              value={Number(sensexData[sensexData.length - 1].Low).toFixed(2)}
+              helpText="The lowest point today"
             />
-            <MetricCard 
-              label="Trading Activity" 
-              value={Number(sensexData[sensexData.length - 1].Volume).toFixed(0)} 
-              helpText="How many shares were traded" 
+            <MetricCard
+              label="Trading Activity"
+              value={Number(sensexData[sensexData.length - 1].Volume).toFixed(0)}
+              helpText="How many shares were traded"
             />
           </div>
-          
-          <hr style={{ border: '1px solid #3e4250', marginBottom: '30px' }} />
-          
-          {/* Chart Section */}
-          <h2 style={{ marginBottom: '20px' }}>📈 How the Market Has Moved (Last 100 Days)</h2>
-          <details style={{ marginBottom: '20px', backgroundColor: '#1e2130', padding: '15px', borderRadius: '10px' }}>
-            <summary style={{ cursor: 'pointer' }}>
-              🤔 What is this chart?
-            </summary>
-            <div style={{ marginTop: '15px', lineHeight: '1.8' }}>
-              <p>This is a <strong>candlestick chart</strong> - don't worry, it's easier than it looks!</p>
-              <p>🟢 <strong>Green/Blue candle</strong>: Market went up that day</p>
-              <p>🔴 <strong>Red/Magenta candle</strong>: Market went down that day</p>
-              <p>Each "wick" (the thin lines) shows the highest and lowest points that day</p>
+
+          <hr className="rule" />
+
+          <h2 className="section-title">📈 How the Market Has Moved (Last 100 Days)</h2>
+          <details className="panel">
+            <summary>🤔 What is this chart?</summary>
+            <div className="panel__body">
+              <p>
+                This is a <strong>candlestick chart</strong> - don&apos;t worry, it&apos;s easier than it looks!
+              </p>
+              <p>
+                🟢 <strong>Green/Blue candle</strong>: Market went up that day
+              </p>
+              <p>
+                🔴 <strong>Red/Magenta candle</strong>: Market went down that day
+              </p>
+              <p>Each &quot;wick&quot; (the thin lines) shows the highest and lowest points that day</p>
             </div>
           </details>
-          <div style={{ height: '500px', marginBottom: '30px' }}>
-            {getCandlestickPlot()}
-          </div>
-          
-          {/* Raw Data Table */}
-          <details style={{ marginBottom: '20px', backgroundColor: '#1e2130', padding: '15px', borderRadius: '10px' }}>
-            <summary style={{ cursor: 'pointer', fontSize: '18px', fontWeight: 'bold' }}>
-              📋 View Detailed Data
-            </summary>
-            <div style={{ marginTop: '15px', overflowX: 'auto' }}>
-              <table style={styles.table}>
-                <thead>
-                  <tr>
-                    <th style={styles.th}>Date</th>
-                    <th style={styles.th}>Open</th>
-                    <th style={styles.th}>High</th>
-                    <th style={styles.th}>Low</th>
-                    <th style={styles.th}>Close</th>
-                    <th style={styles.th}>Volume</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sensexData.slice(-20).reverse().map((row, idx) => (
-                    <tr key={idx} style={styles.tr}>
-                      <td style={styles.td}>{row.Date}</td>
-                      <td style={styles.td}>{Number(row.Open).toFixed(2)}</td>
-                      <td style={styles.td}>{Number(row.High).toFixed(2)}</td>
-                      <td style={styles.td}>{Number(row.Low).toFixed(2)}</td>
-                      <td style={styles.td}>{Number(row.Close).toFixed(2)}</td>
-                      <td style={styles.td}>{Number(row.Volume).toFixed(0)}</td>
+          <div className="chart-shell chart-shell--tall">{getCandlestickPlot()}</div>
+
+          <details className="panel">
+            <summary>📋 View Detailed Data</summary>
+            <div className="panel__body" style={{ marginTop: '0.5rem' }}>
+              <div className="table-wrap">
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Open</th>
+                      <th>High</th>
+                      <th>Low</th>
+                      <th>Close</th>
+                      <th>Volume</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {sensexData
+                      .slice(-20)
+                      .reverse()
+                      .map((row, idx) => (
+                        <tr key={idx}>
+                          <td>{row.Date}</td>
+                          <td>{Number(row.Open).toFixed(2)}</td>
+                          <td>{Number(row.High).toFixed(2)}</td>
+                          <td>{Number(row.Low).toFixed(2)}</td>
+                          <td>{Number(row.Close).toFixed(2)}</td>
+                          <td>{Number(row.Volume).toFixed(0)}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </details>
         </>
       )}
-      
+
       {!sensexData && (
-        <div style={{ backgroundColor: '#1e2130', padding: '20px', borderRadius: '10px', color: '#ffaa00' }}>
-          ⚠️ Market data not found. Please go to Settings & Tools and click 'Update Market Data'.
+        <div className="alert alert--warn">
+          ⚠️ Market data not found. Please go to Settings & Tools and click &apos;Update Market Data&apos;.
         </div>
       )}
     </div>
   )
 }
 
-const MetricCard = ({ label, value, helpText }) => {
-  return (
-    <div className="card" style={{ padding: '24px', marginBottom: '0' }}>
-      <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '8px' }}>{label}</div>
-      <div style={{ fontSize: '28px', fontWeight: '700', background: 'linear-gradient(90deg, #60a5fa 0%, #34d399 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{value}</div>
-      <div style={{ color: '#6b7280', fontSize: '13px', marginTop: '10px' }}>{helpText}</div>
-    </div>
-  )
-}
-
-const styles = {
-  card: {
-    backgroundColor: '#1e2130',
-    padding: '20px',
-    borderRadius: '10px',
-    border: '1px solid #3e4250',
-  },
-  label: {
-    color: '#808495',
-    fontSize: '14px',
-    marginBottom: '5px',
-  },
-  value: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    marginBottom: '10px',
-  },
-  helpText: {
-    color: '#808495',
-    fontSize: '13px',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-  },
-  th: {
-    backgroundColor: '#2e3442',
-    padding: '12px 15px',
-    textAlign: 'left',
-    borderBottom: '1px solid #3e4250',
-  },
-  td: {
-    padding: '12px 15px',
-    borderBottom: '1px solid #3e4250',
-  },
-  tr: {
-    '&:hover': {
-      backgroundColor: '#2e3442',
-    },
-  },
-}
+const MetricCard = ({ label, value, helpText }) => (
+  <div className="card metric-tile">
+    <span className="metric-tile__label">{label}</span>
+    <span className="metric-tile__value">{value}</span>
+    <span className="metric-tile__hint">{helpText}</span>
+  </div>
+)
 
 export default Home
