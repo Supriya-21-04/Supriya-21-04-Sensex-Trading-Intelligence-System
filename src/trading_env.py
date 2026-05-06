@@ -180,13 +180,19 @@ class SensexTradingEnv(gym.Env):
         if limit_breached:
             reward -= 10000.0 # Violent eviction penalty
             
-        obs = self._get_observation() if not done else np.zeros(17, dtype=np.float32)
+        # Terminal obs should match observation_space shape (14,)
+        obs = self._get_observation() if not done else np.zeros(self.observation_space.shape, dtype=np.float32)
         
         info = {
             'portfolio_value': curr_portfolio_value,
             'cash': self.cash,
             'shares_held': self.shares_held,
-            'trade_executed': trade_executed
+            'trade_executed': trade_executed,
+            'position_state': self.position_state,
+            'days_held': self.days_held,
+            'limit_breached': limit_breached,
+            'current_step': self.current_step,
+            'current_price': float(new_price)
         }
 
         return obs, reward, done, truncated, info

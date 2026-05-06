@@ -39,6 +39,7 @@ data/plots/*.png
 models/*.zip
 logs/
 tensorboard_logs/
+runs/
 *.log
 
 # Mac
