@@ -1,15 +1,12 @@
 import streamlit as st
 import pandas as pd
-import plotly.graph_objects as go
 import os
 import json
 import subprocess
 import sys
-from datetime import datetime
 from src.dashboard_components import (
     plot_candlestick, 
     plot_sentiment_gauge, 
-    plot_equity_curve,
     plot_trade_scatter
 )
 

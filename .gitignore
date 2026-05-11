@@ -41,6 +41,12 @@ logs/
 tensorboard_logs/
 runs/
 *.log
+*_output.txt
+train_*.txt
+validation_report.txt
+finbert_report.txt
+env_test_output.txt
+eval_output.txt
 
 # Mac
 .DS_Store

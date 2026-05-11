@@ -134,8 +134,7 @@ def main():
         det_metrics = compute_equity_metrics(det_eq, exposure=det_exp)
 
         # Execution-only RL overlay (RecurrentPPO)
-        overlay_feats = feature_cols + [c for c in ["ens_p_up", "ens_conf"] if c in train_df.columns]
-        # feed predictor context explicitly
+        # Feed predictor context explicitly.
         train_df["ens_p_up"] = p_tr
         train_df["ens_conf"] = c_tr
         test_df["ens_p_up"] = p_te
