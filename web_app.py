@@ -27,7 +27,10 @@ templates = Jinja2Templates(directory=os.path.join(base_dir, "templates"))
 
 directories = {
     "raw": os.path.join(base_dir, "data", "raw"),
-    "processed": os.path.join(base_dir, "data", "processed")
+    "processed": os.path.join(base_dir, "data", "processed"),
+    # Paper trading demo needs the designated train/val/test splits.
+    # The React frontend fetches `/api/data/test.csv`, so we must expose `data/splits`.
+    "splits": os.path.join(base_dir, "data", "splits"),
 }
 
 def load_data(filename):

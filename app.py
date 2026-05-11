@@ -134,8 +134,7 @@ def run_full_pipeline():
 
 # --- Sidebar Navigation ---
 with st.sidebar:
-    st.image("https://www.bseindia.com/images/BSE_Logo.png", width=100)
-    st.title("Intelligence System")
+    st.title("SENSEX Intelligence System")
     st.markdown("---")
     
     page = st.radio(

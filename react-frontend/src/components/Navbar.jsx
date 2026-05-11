@@ -13,13 +13,8 @@ const Navbar = () => {
   return (
     <header className="topnav">
       <div className="topnav__brand">
-        <img
-          src="https://www.bseindia.com/images/BSE_Logo.png"
-          alt="BSE Logo"
-          className="topnav__logo"
-        />
         <div className="topnav__titles">
-          <span className="topnav__title">Intelligence System</span>
+          <span className="topnav__title">SENSEX Intelligence System</span>
         </div>
       </div>
       <nav className="topnav__links" aria-label="Primary">
