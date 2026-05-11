@@ -86,7 +86,7 @@ const PaperTrading = () => {
         </div>
       ) : (
         <div className="alert alert--warn">
-          ⚠️ Demo data missing. Please go to Settings & Tools to set it up!
+          ⚠️ Demo data missing. Please go to Run Pipeline to set it up!
         </div>
       )}
     </div>

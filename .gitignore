@@ -50,3 +50,6 @@ eval_output.txt
 
 # Mac
 .DS_Store
+
+# Nested clone (Quantpad lives under pramukh/ but must not embed another .git in this repo)
+pramukh/**/.git/

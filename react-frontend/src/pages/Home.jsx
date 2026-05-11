@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Plot from 'react-plotly.js'
 
@@ -98,31 +99,61 @@ const Home = () => {
   const riskFlags = Array.isArray(explanationDetails.risk_flags) ? explanationDetails.risk_flags : []
 
   return (
-    <div className="page">
-      <header className="page__header">
-        <h1 className="page__title">🏠 Welcome to SENSEX Market Overview!</h1>
-      </header>
-
-      <details className="panel">
-        <summary>👋 First time here? Click me!</summary>
-        <div className="panel__body">
-          <p>
-            <strong>What is SENSEX?</strong>
-          </p>
-          <p>
-            It&apos;s an index that tracks the top 30 companies on the Bombay Stock Exchange (BSE). Think of it like a
-            &quot;report card&quot; for the Indian stock market!
-          </p>
-          <p>
-            <strong>What you&apos;ll see here:</strong>
-          </p>
-          <ul>
-            <li>Current market level</li>
-            <li>How it&apos;s changed today</li>
-            <li>What our AI thinks about buying/selling</li>
-          </ul>
+    <div className="page home-page">
+      <section className="hero">
+        <div className="hero__badge">SENSEX Intelligence Platform</div>
+        <h1 className="hero__title">
+          AI reads market data + news and turns it into clear daily trading signals.
+        </h1>
+        <p className="hero__lead">
+          This system fetches fresh market data, scores financial sentiment, runs inference, and explains the signal in simple language so you can act faster and with context.
+        </p>
+        <div className="hero__cta">
+          <a href="#actions" className="btn btn--primary">Explore Modules</a>
+          <Link to="/pipeline" className="btn btn--ghost">Run Pipeline</Link>
         </div>
-      </details>
+      </section>
+
+      <section id="actions" className="home-actions">
+        <h2 className="section-title">Core Modules</h2>
+        <div className="module-grid">
+          <Link to="/pipeline" className="module-card">
+            <div className="module-card__icon">🚀</div>
+            <h3 className="module-card__title">Run Pipeline</h3>
+            <p className="module-card__desc">Update data, score sentiment, run model inference, and refresh all outputs in one place.</p>
+          </Link>
+          <Link to="/news" className="module-card">
+            <div className="module-card__icon">📰</div>
+            <h3 className="module-card__title">News & Mood</h3>
+            <p className="module-card__desc">Track current market sentiment from headlines and see whether bias is bullish, bearish, or neutral.</p>
+          </Link>
+          <Link to="/paper-trading" className="module-card">
+            <div className="module-card__icon">🎲</div>
+            <h3 className="module-card__title">Paper Trading</h3>
+            <p className="module-card__desc">Review simulated buy/sell actions and portfolio changes to understand strategy behavior safely.</p>
+          </Link>
+          <Link to="/quantpad/backtest" className="module-card">
+            <div className="module-card__icon">📈</div>
+            <h3 className="module-card__title">Backtest Analyzer</h3>
+            <p className="module-card__desc">Upload your trade history and get deep analytics, drawdown diagnostics, and Monte Carlo stability checks.</p>
+          </Link>
+          <Link to="/quantpad/signals" className="module-card">
+            <div className="module-card__icon">🔍</div>
+            <h3 className="module-card__title">AI Signal Tester</h3>
+            <p className="module-card__desc">Ask natural-language questions on your trades and receive AI-led insights with statistical evidence.</p>
+          </Link>
+          <Link to="/quantpad/pine" className="module-card">
+            <div className="module-card__icon">🌲</div>
+            <h3 className="module-card__title">Pine Generator</h3>
+            <p className="module-card__desc">Convert strategy ideas into TradingView Pine code and iterate quickly with optimization + fixes.</p>
+          </Link>
+          <Link to="/quantpad/strategies" className="module-card">
+            <div className="module-card__icon">📚</div>
+            <h3 className="module-card__title">Strategy Library</h3>
+            <p className="module-card__desc">Browse ready-made strategies with stats, entry/exit logic, and Pine script templates.</p>
+          </Link>
+        </div>
+      </section>
 
       {live && (
         <div
@@ -213,7 +244,7 @@ const Home = () => {
 
       {sensexData && sensexData.length > 0 && (
         <>
-          <h2 className="section-title">📊 Today&apos;s Key Numbers</h2>
+          <h2 className="section-title">Live Market Snapshot</h2>
           <div className="metric-grid">
             <MetricCard
               label="Current SENSEX"
@@ -239,22 +270,7 @@ const Home = () => {
 
           <hr className="rule" />
 
-          <h2 className="section-title">📈 How the Market Has Moved (Last 100 Days)</h2>
-          <details className="panel">
-            <summary>🤔 What is this chart?</summary>
-            <div className="panel__body">
-              <p>
-                This is a <strong>candlestick chart</strong> - don&apos;t worry, it&apos;s easier than it looks!
-              </p>
-              <p>
-                🟢 <strong>Green/Blue candle</strong>: Market went up that day
-              </p>
-              <p>
-                🔴 <strong>Red/Magenta candle</strong>: Market went down that day
-              </p>
-              <p>Each &quot;wick&quot; (the thin lines) shows the highest and lowest points that day</p>
-            </div>
-          </details>
+          <h2 className="section-title">Sensex Movement (Last 100 Days)</h2>
           <div className="chart-shell chart-shell--tall">{getCandlestickPlot()}</div>
 
           <details className="panel">
@@ -296,7 +312,7 @@ const Home = () => {
 
       {!sensexData && (
         <div className="alert alert--warn">
-          ⚠️ Market data not found. Please go to Settings & Tools and click &apos;Update Market Data&apos;.
+          ⚠️ Market data not found. Open Run Pipeline and click &apos;Run All&apos;.
         </div>
       )}
     </div>

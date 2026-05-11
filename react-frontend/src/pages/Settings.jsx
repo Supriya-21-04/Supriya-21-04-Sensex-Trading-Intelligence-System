@@ -93,7 +93,7 @@ const Settings = () => {
   return (
     <div className="page">
       <header className="page__header">
-        <h1 className="page__title">⚙️ Settings & Tools</h1>
+        <h1 className="page__title">🚀 Run Pipeline</h1>
       </header>
 
       {apiReachable === false && (
