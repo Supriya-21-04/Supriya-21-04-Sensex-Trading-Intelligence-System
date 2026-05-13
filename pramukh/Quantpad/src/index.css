@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Ensure QuantPad pages are scanned when this CSS is bundled from another app (e.g. react-frontend). */
+@source "./**/*.{js,jsx}";
+
 @theme {
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -498,4 +501,215 @@ input[type="number"].input-field::-webkit-outer-spin-button,
 input[type="number"].input-field::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* ===== Strategy Library — reference card grid ===== */
+.strategy-lib-card {
+  cursor: pointer;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 18px 20px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.strategy-lib-card:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  transform: translateY(-2px);
+}
+
+.strategy-lib-type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  color: #f5f5f5;
+  text-transform: uppercase;
+}
+
+.strategy-lib-type-badge--purple {
+  background: #3d2f6b;
+}
+
+.strategy-lib-type-badge--blue {
+  background: #1a4d7a;
+}
+
+.strategy-lib-vote {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+/* Layout without Tailwind (react-frontend may not scan pramukh/ for utilities). */
+.strategy-lib-page {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.strategy-lib-page__intro {
+  margin-bottom: 2rem;
+}
+
+.strategy-lib-page__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+  font-family: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.strategy-lib-page__lead {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.strategy-lib-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.strategy-lib-filters .input-field.strategy-lib-filters__search {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 200px;
+  min-width: 200px;
+}
+
+.strategy-lib-filters .input-field.strategy-lib-filters__select {
+  width: auto;
+  min-width: 140px;
+}
+
+.strategy-lib-filters .input-field.strategy-lib-filters__select--wide {
+  min-width: 160px;
+}
+
+.strategy-lib-count {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+}
+
+.strategy-lib-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .strategy-lib-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .strategy-lib-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.strategy-lib-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.strategy-lib-card-title {
+  margin: 0;
+  padding-right: 0.25rem;
+  flex: 1;
+  min-width: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: #fafafa;
+}
+
+.strategy-lib-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.strategy-lib-difficulty {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.strategy-lib-desc {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.strategy-lib-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.25rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 0.75rem;
+}
+
+.strategy-lib-metric-label {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.strategy-lib-metric-value {
+  margin: 0.125rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.strategy-lib-indicators {
+  margin-top: 0.875rem;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.strategy-lib-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.strategy-lib-empty__icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
 }

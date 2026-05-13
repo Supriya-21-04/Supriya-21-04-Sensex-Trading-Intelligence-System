@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import QuantPadModuleShell from './components/QuantPadModuleShell'
 import Home from './pages/Home'
 import News from './pages/News'
 import PaperTrading from './pages/PaperTrading'
@@ -23,11 +24,13 @@ function App() {
           <Route path="/news" element={<News />} />
           <Route path="/paper-trading" element={<PaperTrading />} />
           <Route path="/pipeline" element={<Settings />} />
-          <Route path="/quantpad" element={<QuantDashboard />} />
-          <Route path="/quantpad/backtest" element={<QuantBacktestAnalyzer />} />
-          <Route path="/quantpad/signals" element={<QuantSignalTester />} />
-          <Route path="/quantpad/pine" element={<QuantPineGenerator />} />
-          <Route path="/quantpad/strategies" element={<QuantStrategyLibrary />} />
+          <Route path="/quantpad" element={<QuantPadModuleShell />}>
+            <Route index element={<QuantDashboard />} />
+            <Route path="backtest" element={<QuantBacktestAnalyzer />} />
+            <Route path="signals" element={<QuantSignalTester />} />
+            <Route path="pine" element={<QuantPineGenerator />} />
+            <Route path="strategies" element={<QuantStrategyLibrary />} />
+          </Route>
         </Routes>
       </main>
     </div>

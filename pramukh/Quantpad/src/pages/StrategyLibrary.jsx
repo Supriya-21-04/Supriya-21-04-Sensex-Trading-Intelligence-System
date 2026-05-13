@@ -43,6 +43,33 @@ export default function StrategyLibrary() {
     Advanced: 'var(--color-red)',
   }
 
+  const categoryBadgeClass = (category) => {
+    const c = category.toLowerCase()
+    if (c === 'breakout' || c === 'scalping') return 'strategy-lib-type-badge strategy-lib-type-badge--blue'
+    return 'strategy-lib-type-badge strategy-lib-type-badge--purple'
+  }
+
+  const metricColor = (key, s) => {
+    const { winRate, profitFactor, sharpe, maxDrawdown } = s.stats
+    if (key === 'wr') {
+      if (winRate >= 52) return 'var(--color-green)'
+      if (winRate >= 45) return 'var(--color-yellow)'
+      return 'var(--color-red)'
+    }
+    if (key === 'pf') {
+      if (profitFactor >= 1.5) return 'var(--color-green)'
+      if (profitFactor >= 1.15) return 'var(--color-yellow)'
+      return 'var(--color-red)'
+    }
+    if (key === 'sr') {
+      if (sharpe >= 1) return 'var(--color-green)'
+      if (sharpe >= 0.65) return 'var(--color-yellow)'
+      return 'var(--color-red)'
+    }
+    if (key === 'dd') return 'var(--color-red)'
+    return 'var(--color-text-primary)'
+  }
+
   if (selectedStrategy) {
     const s = selectedStrategy
     return (
@@ -164,22 +191,21 @@ export default function StrategyLibrary() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="mb-8 animate-fade-in-up">
-        <h1 className="text-3xl md:text-4xl font-serif tracking-tight mb-2">
+    <div className="strategy-lib-page">
+      <div className="strategy-lib-page__intro animate-fade-in-up">
+        <h1 className="strategy-lib-page__title">
           <span className="gradient-text">Strategy Library</span>
         </h1>
-        <p style={{ color: 'var(--color-text-secondary)' }}>
+        <p className="strategy-lib-page__lead" style={{ color: 'var(--color-text-secondary)' }}>
           {strategies.length} ready-made strategies with backtest stats, Pine Script code, and analysis
         </p>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-6 animate-fade-in-up stagger-1">
+      <div className="strategy-lib-filters animate-fade-in-up stagger-1">
         <input
           id="strategy-search"
           type="text"
-          className="input-field flex-1 min-w-[200px]"
+          className="input-field strategy-lib-filters__search"
           placeholder="Search strategies, indicators..."
           value={search}
           onChange={e => setSearch(e.target.value)}
@@ -187,10 +213,9 @@ export default function StrategyLibrary() {
 
         <select
           id="strategy-category-filter"
-          className="input-field w-auto"
+          className="input-field strategy-lib-filters__select strategy-lib-filters__select--wide"
           value={selectedCategory}
           onChange={e => setSelectedCategory(e.target.value)}
-          style={{ minWidth: '160px' }}
         >
           <option value="All">All Categories</option>
           {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -198,84 +223,90 @@ export default function StrategyLibrary() {
 
         <select
           id="strategy-difficulty-filter"
-          className="input-field w-auto"
+          className="input-field strategy-lib-filters__select"
           value={selectedDifficulty}
           onChange={e => setSelectedDifficulty(e.target.value)}
-          style={{ minWidth: '140px' }}
         >
           <option value="All">All Levels</option>
           {difficulties.map(d => <option key={d} value={d}>{d}</option>)}
         </select>
       </div>
 
-      {/* Results count */}
-      <p className="text-sm mb-4" style={{ color: 'var(--color-text-muted)' }}>
+      <p className="strategy-lib-count" style={{ color: 'var(--color-text-muted)' }}>
         Showing {filtered.length} of {strategies.length} strategies
       </p>
 
-      {/* Strategy grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="strategy-lib-grid">
         {filtered.map((s, i) => (
           <div
             key={s.id}
+            role="button"
+            tabIndex={0}
             onClick={() => setSelectedStrategy(s)}
-            className={`glass-card p-5 cursor-pointer animate-fade-in-up stagger-${(i % 6) + 1}`}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                setSelectedStrategy(s)
+              }
+            }}
+            className="strategy-lib-card animate-fade-in-up"
+            style={{ animationDelay: `${(i % 6) * 0.08}s` }}
           >
-            <div className="flex items-start justify-between mb-3">
-              <div>
-                <h3 className="text-Base font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>{s.name}</h3>
-                <div className="flex items-center gap-2">
-                  <span className="badge badge-accent">{s.category}</span>
-                  <span className="badge" style={{ background: `${difficultyColors[s.difficulty]}20`, color: difficultyColors[s.difficulty] }}>
-                    {s.difficulty}
-                  </span>
-                </div>
-              </div>
-              <button onClick={(e) => { e.stopPropagation(); handleVote(s.id) }}
-                className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg"
+            <div className="strategy-lib-card-header">
+              <h3 className="strategy-lib-card-title">{s.name}</h3>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); handleVote(s.id) }}
+                className="strategy-lib-vote"
                 style={{
-                  background: voted[s.id] ? 'rgba(99,102,241,0.15)' : 'transparent',
                   color: voted[s.id] ? 'var(--color-accent-light)' : 'var(--color-text-muted)',
-                }}>
-                {voted[s.id] ? '▲' : '△'} {votes[s.id]}
+                }}
+              >
+                <span aria-hidden>{voted[s.id] ? '▲' : '△'}</span>
+                <span>{votes[s.id]}</span>
               </button>
             </div>
 
-            <p className="text-xs mb-4 leading-relaxed line-clamp-2" style={{ color: 'var(--color-text-secondary)' }}>
-              {s.description}
-            </p>
+            <div className="strategy-lib-tag-row">
+              <span className={categoryBadgeClass(s.category)}>
+                {s.category.toUpperCase()}
+              </span>
+              <span
+                className="strategy-lib-difficulty"
+                style={{ color: difficultyColors[s.difficulty] }}
+              >
+                {s.difficulty.toUpperCase()}
+              </span>
+            </div>
 
-            <div className="grid grid-cols-4 gap-2 text-center">
+            <p className="strategy-lib-desc">{s.description}</p>
+
+            <div className="strategy-lib-metrics">
               {[
-                { label: 'WR', value: `${s.stats.winRate}%`, color: s.stats.winRate >= 50 ? 'var(--color-green)' : 'var(--color-red)' },
-                { label: 'PF', value: s.stats.profitFactor.toFixed(1), color: s.stats.profitFactor >= 1.5 ? 'var(--color-green)' : 'var(--color-yellow)' },
-                { label: 'SR', value: s.stats.sharpe.toFixed(1), color: s.stats.sharpe >= 1 ? 'var(--color-green)' : 'var(--color-yellow)' },
-                { label: 'DD', value: `${s.stats.maxDrawdown}%`, color: 'var(--color-red)' },
+                { key: 'wr', label: 'WR', value: `${s.stats.winRate}%` },
+                { key: 'pf', label: 'PF', value: s.stats.profitFactor.toFixed(1) },
+                { key: 'sr', label: 'SR', value: s.stats.sharpe.toFixed(1) },
+                { key: 'dd', label: 'DD', value: `${s.stats.maxDrawdown}%` },
               ].map(stat => (
                 <div key={stat.label}>
-                  <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>{stat.label}</p>
-                  <p className="text-sm font-bold" style={{ color: stat.color }}>{stat.value}</p>
+                  <p className="strategy-lib-metric-label">{stat.label}</p>
+                  <p className="strategy-lib-metric-value" style={{ color: metricColor(stat.key, s) }}>
+                    {stat.value}
+                  </p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {s.indicators.slice(0, 3).map(ind => (
-                <span key={ind} className="text-[10px] px-2 py-0.5 rounded-full"
-                  style={{ background: 'rgba(99,102,241,0.08)', color: 'var(--color-text-muted)' }}>
-                  {ind}
-                </span>
-              ))}
-            </div>
+            <p className="strategy-lib-indicators">{s.indicators.join(', ')}</p>
           </div>
         ))}
       </div>
 
       {filtered.length === 0 && (
-        <div className="text-center py-16">
-          <p className="text-3xl mb-3">🔍</p>
-          <p className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>No strategies found</p>
-          <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Try adjusting your filters</p>
+        <div className="strategy-lib-empty">
+          <p className="strategy-lib-empty__icon">🔍</p>
+          <p style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>No strategies found</p>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Try adjusting your filters</p>
         </div>
       )}
     </div>
