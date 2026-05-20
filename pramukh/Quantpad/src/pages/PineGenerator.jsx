@@ -5,18 +5,18 @@ import { parseStrategy } from '../utils/pineTemplates'
 // --- Visualization Components ---
 
 const IndicatorCard = ({ indicator }) => (
-  <div className="glass-card-static p-4 flex flex-col h-full border border-white/5 transition-all hover:border-accent/30">
-    <div className="flex justify-between items-start mb-2">
-      <span className="text-xs font-bold uppercase tracking-wider text-accent-light bg-accent/10 px-2 py-0.5 rounded">
+  <div className="glass-card-static p-5 flex flex-col h-full border border-white/5 transition-all hover:border-accent/30">
+    <div className="flex justify-between items-start mb-3">
+      <span className="text-xs font-bold uppercase tracking-wider text-accent-light bg-accent/10 px-2.5 py-1 rounded">
         {indicator.indicator.category}
       </span>
-      <span className="text-[10px] text-text-muted font-mono">
+      <span className="text-xs text-text-muted font-mono">
         {indicator.numbers[0] ? `P:${indicator.numbers[0]}` : 'Default'}
       </span>
     </div>
-    <h4 className="text-sm font-bold mb-1 text-text-primary">{indicator.indicator.name}</h4>
-    <p className="text-[11px] text-text-muted mb-3 italic">{indicator.indicator.role}</p>
-    <p className="text-xs text-text-secondary leading-relaxed flex-grow">
+    <h4 className="text-base font-bold mb-2 text-text-primary">{indicator.indicator.name}</h4>
+    <p className="text-xs text-text-muted mb-4 italic leading-relaxed">{indicator.indicator.role}</p>
+    <p className="text-sm text-text-secondary leading-loose flex-grow">
       {indicator.indicator.description}
     </p>
   </div>
@@ -26,22 +26,22 @@ const ConditionTree = ({ parsed }) => {
   if (!parsed || parsed.indicators.length === 0) return null
 
   return (
-    <div className="glass-card-static p-6 mt-6">
-      <h4 className="text-sm font-bold mb-4 flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+    <div className="glass-card-static p-6">
+      <h4 className="text-base font-bold mb-6 flex items-center gap-2">
+        <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
         Strategy Logic Flow
       </h4>
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="badge badge-green">LONG ENTRY</span>
-            <span className="text-xs text-text-muted">when ALL conditions met</span>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="badge badge-green py-1 px-3">LONG ENTRY</span>
+            <span className="text-sm text-text-muted">when ALL conditions met</span>
           </div>
-          <div className="pl-4 border-l-2 border-green-500/30 space-y-3">
+          <div className="pl-5 border-l-2 border-green-500/30 space-y-4">
             {parsed.indicators.map((ind, i) => (
-              <div key={i} className="relative flex items-center gap-3">
-                <div className="absolute -left-4 w-4 h-[2px] bg-green-500/30" />
-                <div className="p-2 rounded bg-green-500/5 border border-green-500/10 text-xs">
+              <div key={i} className="relative flex items-center gap-4">
+                <div className="absolute -left-5 w-5 h-[2px] bg-green-500/30" />
+                <div className="p-3 rounded bg-green-500/5 border border-green-500/10 text-sm leading-relaxed">
                   <span className="font-bold text-green-400 mr-2">{ind.indicator.name}</span>
                   <span className="text-text-secondary">
                     {ind.conditionKey || 'default signal'}
@@ -53,14 +53,14 @@ const ConditionTree = ({ parsed }) => {
         </div>
 
         <div>
-           <div className="flex items-center gap-2 mb-3">
-            <span className="badge badge-red">SHORT / EXIT</span>
-            <span className="text-xs text-text-muted">logic reversal</span>
+           <div className="flex items-center gap-3 mb-4">
+            <span className="badge badge-red py-1 px-3">SHORT / EXIT</span>
+            <span className="text-sm text-text-muted">logic reversal</span>
           </div>
-          <div className="pl-4 border-l-2 border-red-500/30">
-            <div className="relative flex items-center gap-3">
-              <div className="absolute -left-4 w-4 h-[2px] bg-red-500/30" />
-              <div className="p-2 rounded bg-red-500/5 border border-red-500/10 text-xs text-text-secondary italic">
+          <div className="pl-5 border-l-2 border-red-500/30">
+            <div className="relative flex items-center gap-4">
+              <div className="absolute -left-5 w-5 h-[2px] bg-red-500/30" />
+              <div className="p-3 rounded bg-red-500/5 border border-red-500/10 text-sm text-text-secondary italic leading-relaxed">
                 Reverses the primary entry condition for exit/short
               </div>
             </div>
@@ -89,18 +89,18 @@ const StrategySnapshot = ({ parsed }) => {
   }, [parsed])
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
       {[
         { label: 'Complexity', value: complexity.label, sub: complexity.stars, color: complexity.color },
         { label: 'Total Indicators', value: parsed.indicators.length, sub: 'Active nodes', color: 'var(--color-accent-light)' },
         { label: 'Primary Style', value: type, sub: 'Execution logical base', color: 'var(--color-cyan)', full: true },
         { label: 'Timeframe', value: 'Any', sub: 'Optimized for current', color: 'var(--color-purple)' },
       ].map((stat, i) => (
-        <div key={i} className={`glass-card-static p-4 border border-white/5 ${stat.full ? 'col-span-2' : ''}`}>
-          <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">{stat.label}</p>
-          <div className="flex items-baseline gap-2">
-            <p className="text-lg font-bold" style={{ color: stat.color }}>{stat.value}</p>
-            <p className="text-[10px] text-text-muted">{stat.sub}</p>
+        <div key={i} className={`glass-card-static p-5 border border-white/5 ${stat.full ? 'col-span-2' : ''}`}>
+          <p className="text-xs font-bold text-text-muted uppercase tracking-widest mb-2">{stat.label}</p>
+          <div className="flex items-baseline gap-3">
+            <p className="text-xl font-bold leading-tight" style={{ color: stat.color }}>{stat.value}</p>
+            <p className="text-xs text-text-muted leading-tight">{stat.sub}</p>
           </div>
         </div>
       ))}
@@ -129,12 +129,12 @@ const VolatilityGauge = ({ parsed }) => {
   const label = getLabel(score)
 
   return (
-    <div className="glass-card-static p-6 mt-6">
-      <div className="flex justify-between items-center mb-4">
-        <h4 className="text-sm font-bold">Volatility Exposure</h4>
-        <span className="text-xs font-mono" style={{ color: label.color }}>{score}%</span>
+    <div className="glass-card-static p-6">
+      <div className="flex justify-between items-center mb-5">
+        <h4 className="text-base font-bold">Volatility Exposure</h4>
+        <span className="text-sm font-mono" style={{ color: label.color }}>{score}%</span>
       </div>
-      <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden mb-3">
+      <div className="h-2.5 w-full bg-white/5 rounded-full overflow-hidden mb-4">
         <div 
           className="h-full transition-all duration-1000 ease-out rounded-full"
           style={{ 
@@ -144,9 +144,9 @@ const VolatilityGauge = ({ parsed }) => {
           }}
         />
       </div>
-      <div className="flex justify-between items-start">
-        <p className="text-[11px] font-bold" style={{ color: label.color }}>{label.text}</p>
-        <p className="text-[10px] text-text-muted max-w-[200px] text-right">💡 {label.tip}</p>
+      <div className="flex justify-between items-start mt-2">
+        <p className="text-sm font-bold leading-relaxed" style={{ color: label.color }}>{label.text}</p>
+        <p className="text-xs text-text-muted max-w-[200px] text-right leading-relaxed">💡 {label.tip}</p>
       </div>
     </div>
   )
@@ -178,16 +178,16 @@ const CategoryDistribution = ({ parsed }) => {
   }
 
   return (
-    <div className="glass-card-static p-6 mt-6">
-      <h4 className="text-sm font-bold mb-4">Indicator Distribution</h4>
-      <div className="space-y-4">
+    <div className="glass-card-static p-6">
+      <h4 className="text-base font-bold mb-6">Indicator Distribution</h4>
+      <div className="space-y-5">
         {distribution.map((item, i) => (
-          <div key={i} className="space-y-1.5">
-            <div className="flex justify-between items-center text-[10px] uppercase font-bold tracking-wider">
+          <div key={i} className="space-y-2">
+            <div className="flex justify-between items-center text-xs uppercase font-bold tracking-wider mb-1">
               <span style={{ color: colors[item.name] || 'var(--color-text-secondary)' }}>{item.name}</span>
               <span className="text-text-muted">{item.percent}% ({item.count})</span>
             </div>
-            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
               <div 
                 className="h-full rounded-full transition-all duration-1000 ease-out"
                 style={{ 
@@ -339,7 +339,7 @@ export default function PineGenerator() {
           />
 
           {/* Example buttons */}
-          <div className="mt-4 flex flex-wrap gap-2" id="pine-examples">
+          <div className="mt-6 flex flex-wrap gap-3" id="pine-examples">
             {[
               'Buy on bullish liquidity sweep and RSI oversold',
               'Enter when bullish FVG is created and MACD crosses above',
@@ -351,7 +351,7 @@ export default function PineGenerator() {
               <button
                 key={example}
                 onClick={() => setDescription(example)}
-                className="text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105"
+                className="text-sm px-4 py-2 rounded-full transition-all hover:scale-105 leading-relaxed"
                 style={{ background: 'rgba(16,185,129,0.08)', color: 'var(--color-green-light)', border: '1px solid rgba(16,185,129,0.2)' }}
               >
                 {example.length > 40 ? example.slice(0, 40) + '...' : example}
@@ -435,17 +435,17 @@ export default function PineGenerator() {
                   
                   <StrategySnapshot parsed={visualMeta} />
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     {visualMeta.indicators.map((ind, i) => (
                       <IndicatorCard key={i} indicator={ind} />
                     ))}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="md:col-span-2">
                       <ConditionTree parsed={visualMeta} />
                     </div>
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                       <VolatilityGauge parsed={visualMeta} />
                       <CategoryDistribution parsed={visualMeta} />
                     </div>

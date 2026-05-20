@@ -612,7 +612,7 @@ export default function BacktestAnalyzer() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
         {[
           { label: 'Win Rate', value: `${fmt(analysis.winRate, 1)}%`, color: analysis.winRate >= 50 ? 'var(--color-green)' : 'var(--color-red)' },
           { label: 'Total PnL', value: fmtCurrency(analysis.totalPnL), color: analysis.totalPnL >= 0 ? 'var(--color-green)' : 'var(--color-red)' },
@@ -652,7 +652,7 @@ export default function BacktestAnalyzer() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="glass-card-static p-6">
               <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-text-primary)' }}>Trade Distribution</h3>
-              <div className="space-y-4">
+              <div className="text-sm" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span style={{ color: 'var(--color-green)' }}>Winners ({analysis.winCount})</span>
@@ -685,7 +685,7 @@ export default function BacktestAnalyzer() {
             </div>
             <div className="glass-card-static p-6">
               <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-text-primary)' }}>Risk Metrics</h3>
-              <div className="space-y-3 text-sm">
+              <div className="text-sm" style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 {[
                   { label: 'Sharpe Ratio', value: fmt(analysis.sharpeRatio), good: analysis.sharpeRatio >= 1 },
                   { label: 'Profit Factor', value: fmt(analysis.profitFactor), good: analysis.profitFactor >= 1.5 },
@@ -765,7 +765,7 @@ export default function BacktestAnalyzer() {
             </div>
             <div className="glass-card-static p-6">
               <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-text-primary)' }}>Performance by Direction</h3>
-              <div className="space-y-4">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {Object.entries(analysis.conditions.byType).map(([type, data]) => (
                   <div key={type} className="flex items-center justify-between p-3 rounded-xl"
                     style={{ background: 'rgba(255,255,255,0.02)' }}>
