@@ -10,6 +10,7 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
 
 # Load environment variables
 load_dotenv()
+NEWSAPI_KEY = os.getenv("NEWSAPI_KEY")
 NEWSDATA_API_KEY = os.getenv("NEWSDATA_API_KEY")
 
 class NewsFetcher:
@@ -38,7 +39,7 @@ class NewsFetcher:
     def fetch_newsdata_io(self):
         """Fetch news from NewsData.io focusing on the past 10 days of finance news"""
         if not NEWSDATA_API_KEY:
-            logging.error("NewsData.io API key not found in .env. Please add NEWSDATA_API_KEY.")
+            logging.warning("NewsData.io API key not found. Skipping NewsData.io fetch.")
             return
 
         for query in self.queries:
@@ -94,6 +95,72 @@ class NewsFetcher:
                     logging.error(f"NewsData.io API error for query '{query}': {response.status_code} - {response.text}")
             except Exception as e:
                 logging.error(f"NewsData.io fetch error for query '{query}': {e}")
+
+    def fetch_news_api(self):
+        """Fetch news from NewsAPI.org focusing on the past 10 days of finance news"""
+        if not NEWSAPI_KEY:
+            logging.warning("NewsAPI.org API key not found. Skipping NewsAPI.org fetch.")
+            return
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+
+        # NewsAPI requires date format YYYY-MM-DD
+        from_date = (datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d')
+
+        for query in self.queries:
+            logging.info(f"Fetching news from NewsAPI.org for query: {query}")
+            
+            url = "https://newsapi.org/v2/everything"
+            params = {
+                'q': query,
+                'from': from_date,
+                'language': 'en',
+                'sortBy': 'publishedAt',
+                'pageSize': 20,
+                'apiKey': NEWSAPI_KEY
+            }
+            
+            try:
+                response = requests.get(url, params=params, headers=headers)
+                if response.status_code == 200:
+                    data = response.json()
+                    articles = data.get('articles', [])
+                    logging.info(f"Retrieved {len(articles)} articles for query '{query}'")
+                    
+                    for article in articles:
+                        headline = article.get('title', '')
+                        description = article.get('description', '')
+                        content = article.get('content', '')
+                        
+                        # Filter out non-stock news (crypto, etc.) and ensure SENSEX/BSE focus
+                        if not self.is_relevant(headline, description):
+                            logging.info(f"Skipping non-SENSEX news: {headline[:50]}...")
+                            continue
+
+                        pub_date = article.get('publishedAt', '')
+                        
+                        full_text = content or description or headline
+                        if full_text and " [+" in full_text:
+                            idx = full_text.rfind(" [+")
+                            if idx != -1:
+                                full_text = full_text[:idx]
+
+                        source = article.get('source', {}).get('name', 'Unknown')
+                        logging.info(f"[{pub_date}] {headline} ({source})")
+                        
+                        self.news_data.append({
+                            "Date": pub_date,
+                            "Ticker": "SENSEX", 
+                            "Headline": headline,
+                            "Full_Text": full_text,
+                            "Source": f"NewsAPI ({source})"
+                        })
+                else:
+                    logging.error(f"NewsAPI.org API error for query '{query}': {response.status_code} - {response.text}")
+            except Exception as e:
+                logging.error(f"NewsAPI.org fetch error for query '{query}': {e}")
 
     def fetch_gnews_backup(self):
         """Fetch news from GNews as a backup source"""
@@ -160,8 +227,13 @@ def main():
     
     fetcher = NewsFetcher(queries)
     
-    # 1. Fetch from NewsData.io
-    fetcher.fetch_newsdata_io()
+    # 1. Fetch from news API sources depending on key presence
+    if NEWSDATA_API_KEY:
+        fetcher.fetch_newsdata_io()
+    if NEWSAPI_KEY:
+        fetcher.fetch_news_api()
+    if not NEWSDATA_API_KEY and not NEWSAPI_KEY:
+        logging.warning("No NewsData.io or NewsAPI.org keys found. Will rely purely on GNews backup.")
     
     # 2. Fetch from GNews Backup
     fetcher.fetch_gnews_backup()
