@@ -1,0 +1,110 @@
+{
+    "Current_Exponential_Sentiment": -0.027151699755384187,
+    "Live_Inference": {
+        "data_date": "2026-05-27",
+        "prediction_date": "2026-05-29",
+        "signal": "BUY",
+        "action_code": 1,
+        "confidence": "High (PPO Policy Consensus)",
+        "explanation": "SUMMARY\n- The model gives a BUY signal, which means it expects the Sensex to move up in the near term.\n\nWHY THE MODEL IS SAYING THIS\n- Because recent price action shows buyers are stronger than sellers, the short-term direction is upward.\n- Because the last few sessions show a steady upward push, confidence in this signal is higher.\n- Because market swings are moderate, risk is present but more controlled.\n\nWHAT THE NEWS IS SAYING\n- Headlines like \"India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore\" and \"India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore\" are affecting confidence.\n- Because news mood is mostly negative, it is adding pressure on prices.\n\nWHAT COULD GO WRONG\n- This signal can fail if strong positive news appears or if volatility cools quickly and buyers return.\n\nBOTTOM LINE FOR A BEGINNER\n- Why BUY: sellers vs buyers balance, trend direction, and news mood all point this way right now.\n- What to do now: consider small step-by-step buying, not one large entry.\n- Sensex closed around 75867.80 after a -0.19% move in a normal-volatility setup.",
+        "key_factors": [
+            "The market moved down by 0.19% today, but the model sees this as a buying opportunity.",
+            "The momentum indicators suggest the market is not moving too fast up or down, which is a good sign.",
+            "The trend indicators show that big investors are buying, which is a positive sign."
+        ],
+        "explanation_details": {
+            "bullish_points": [
+                "The market has been moving down recently, but the model expects it to bounce back.",
+                "The news headlines are positive, with a net inflow of Rs 25,088 crore in the PMS industry.",
+                "The mean sentiment score today is slightly negative, but the model sees this as a buying opportunity."
+            ],
+            "bearish_points": [
+                "The market is still moving down, and the trend indicators show downward momentum.",
+                "The volatility is normal, but the model expects it to increase soon."
+            ],
+            "risk_flags": [
+                "The market is still moving down, and the model expects it to bounce back soon."
+            ],
+            "influential_news": [
+                {
+                    "date": "2026-05-28",
+                    "headline": "India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore",
+                    "sentiment": 1.0,
+                    "why_it_matters": "This positive news about the PMS industry is a good sign for the market."
+                }
+            ]
+        },
+        "context_snapshot": {
+            "date": "2026-05-27",
+            "close": 75867.796875,
+            "high": 76224.6796875,
+            "low": 75748.2109375,
+            "open": 75939.859375,
+            "volume": 26000.0,
+            "rsi_14": 47.61073021615166,
+            "stoch_k": 49.34072263648676,
+            "stoch_d": 49.61934259338212,
+            "macd": -342.64949434464506,
+            "atr_14": 987.8838983082254,
+            "volatility_ratio": 1.3021122781987011,
+            "regime_flag": 0,
+            "obv": 88885200.0,
+            "sma_50": 76016.5075,
+            "sma_200": 81168.2039453125,
+            "sentiment": -0.1351908762279633,
+            "returns": -0.0018669491415672,
+            "vol_change": 1.2608695652173911,
+            "target_return": 0.0,
+            "close_z": -0.6539490128814,
+            "rsi_14_z": -0.1842126507033631,
+            "stoch_k_z": 0.0514716980662593,
+            "macd_z": -0.6885574016972845,
+            "atr_14_z": -1.517609552140054,
+            "volatility_ratio_z": -1.5978508306830914,
+            "obv_z": -1.142344438881666,
+            "sma_200_z": -1.6386323568500023,
+            "returns_z": -0.1673657461035887,
+            "vol_change_z": 1.8573561322853815
+        },
+        "top_news_context": [
+            {
+                "date": "2026-05-28",
+                "headline": "India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore",
+                "sentiment": 1.0,
+                "source": "NewsData.io (thehawk_in)"
+            },
+            {
+                "date": "2026-05-28",
+                "headline": "India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore",
+                "sentiment": 1.0,
+                "source": "NewsData.io (thehawk_in)"
+            },
+            {
+                "date": "2026-05-28",
+                "headline": "India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore",
+                "sentiment": 1.0,
+                "source": "NewsData.io (thehawk_in)"
+            },
+            {
+                "date": "2026-05-22",
+                "headline": "Sensex Today | Stock Market Live Updates: Nifty futures hint at a positive start as mkt aims to close week higher - LinkedIn",
+                "sentiment": 0.8606,
+                "source": "GNews (LinkedIn)"
+            },
+            {
+                "date": "2026-05-26",
+                "headline": "Sensex today | Stock Market Highlights: Sensex falls 479 points, Nifty slips below 23,950 as rupee weakens",
+                "sentiment": 0.8404,
+                "source": "NewsAPI (BusinessLine)"
+            },
+            {
+                "date": "2026-05-26",
+                "headline": "Sensex today | Stock Market Highlights: Sensex falls 479 points, Nifty slips below 23,950 as rupee weakens",
+                "sentiment": 0.8404,
+                "source": "NewsAPI (BusinessLine)"
+            }
+        ],
+        "explanation_source": "groq:llama-3.1-8b-instant",
+        "explanation_generated_at": "2026-05-29T03:55:24Z"
+    }
+}
