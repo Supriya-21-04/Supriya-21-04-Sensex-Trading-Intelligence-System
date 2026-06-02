@@ -95,9 +95,9 @@ export default function FactorAnalyzer() {
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: '#1e293b',
-        titleColor: '#f1f5f9',
-        bodyColor: '#94a3b8',
+        backgroundColor: '#ffffff',
+        titleColor: '#0f172a',
+        bodyColor: '#475569',
         borderColor: 'rgba(99,102,241,0.3)',
         borderWidth: 1,
         cornerRadius: 8,
@@ -109,13 +109,13 @@ export default function FactorAnalyzer() {
     },
     scales: {
       x: {
-        grid: { color: 'rgba(255,255,255,0.03)' },
-        ticks: { color: '#64748b', font: { family: 'Inter', size: 11 } },
-        title: { display: true, text: 'Correlation with Win/Loss', color: '#64748b' },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { color: '#94a3b8', font: { family: 'Inter', size: 11 } },
+        title: { display: true, text: 'Correlation with Win/Loss', color: '#94a3b8' },
       },
       y: {
         grid: { display: false },
-        ticks: { color: '#94a3b8', font: { family: 'Inter', size: 11 } },
+        ticks: { color: '#475569', font: { family: 'Inter', size: 11 } },
       },
     }
   }
@@ -247,8 +247,10 @@ export default function FactorAnalyzer() {
             </thead>
             <tbody>
               {analysis.factors.slice(0, 30).map((factor, i) => (
-                <tr key={factor.name} className="transition-colors hover:bg-white/[0.02]"
-                  style={{ borderBottom: '1px solid var(--color-border)' }}>
+                <tr key={factor.name} className="transition-colors"
+                  style={{ borderBottom: '1px solid var(--color-border)' }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'var(--color-bg-secondary)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                   <td className="px-6 py-3 font-mono text-xs" style={{ color: 'var(--color-text-muted)' }}>#{i + 1}</td>
                   <td className="px-6 py-3 font-medium" style={{ color: 'var(--color-text-primary)' }}>{factor.name}</td>
                   <td className="px-6 py-3 text-right font-mono font-semibold"

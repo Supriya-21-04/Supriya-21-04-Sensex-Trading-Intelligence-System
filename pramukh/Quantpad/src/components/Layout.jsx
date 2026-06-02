@@ -15,19 +15,19 @@ export default function Layout() {
   return (
     <div className="bg-grid min-h-screen relative">
       {/* Background glows */}
-      <div className="bg-glow" style={{ top: '-200px', left: '-200px', background: 'rgba(99,102,241,0.06)' }} />
-      <div className="bg-glow" style={{ bottom: '-200px', right: '-200px', background: 'rgba(6,182,212,0.04)' }} />
+      <div className="bg-glow" style={{ top: '-200px', left: '-200px', background: 'rgba(99,102,241,0.08)' }} />
+      <div className="bg-glow" style={{ bottom: '-200px', right: '-200px', background: 'rgba(8,145,178,0.06)' }} />
 
       {/* Mobile hamburger */}
       <button
         id="sidebar-toggle"
         onClick={() => setSidebarOpen(!sidebarOpen)}
         className="fixed top-4 left-4 z-[60] md:hidden flex flex-col gap-1.5 p-2 rounded-lg"
-        style={{ background: 'var(--color-bg-card)' }}
+        style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
       >
-        <span className="block w-5 h-0.5 bg-white rounded" />
-        <span className="block w-5 h-0.5 bg-white rounded" />
-        <span className="block w-5 h-0.5 bg-white rounded" />
+        <span className="block w-5 h-0.5 rounded" style={{ background: 'var(--color-text-primary)' }} />
+        <span className="block w-5 h-0.5 rounded" style={{ background: 'var(--color-text-primary)' }} />
+        <span className="block w-5 h-0.5 rounded" style={{ background: 'var(--color-text-primary)' }} />
       </button>
 
       {/* Sidebar overlay */}

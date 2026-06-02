@@ -5,7 +5,8 @@ import { parseStrategy } from '../utils/pineTemplates'
 // --- Visualization Components ---
 
 const IndicatorCard = ({ indicator }) => (
-  <div className="glass-card-static p-5 flex flex-col h-full border border-white/5 transition-all hover:border-accent/30">
+  <div className="glass-card-static p-5 flex flex-col h-full transition-all"
+    style={{ border: '1px solid var(--color-border)' }}>
     <div className="flex justify-between items-start mb-3">
       <span className="text-xs font-bold uppercase tracking-wider text-accent-light bg-accent/10 px-2.5 py-1 rounded">
         {indicator.indicator.category}
@@ -96,7 +97,8 @@ const StrategySnapshot = ({ parsed }) => {
         { label: 'Primary Style', value: type, sub: 'Execution logical base', color: 'var(--color-cyan)', full: true },
         { label: 'Timeframe', value: 'Any', sub: 'Optimized for current', color: 'var(--color-purple)' },
       ].map((stat, i) => (
-        <div key={i} className={`glass-card-static p-5 border border-white/5 ${stat.full ? 'col-span-2' : ''}`}>
+        <div key={i} className={`glass-card-static p-5 ${stat.full ? 'col-span-2' : ''}`}
+          style={{ border: '1px solid var(--color-border)' }}>
           <p className="text-xs font-bold text-text-muted uppercase tracking-widest mb-2">{stat.label}</p>
           <div className="flex items-baseline gap-3">
             <p className="text-xl font-bold leading-tight" style={{ color: stat.color }}>{stat.value}</p>
@@ -134,7 +136,7 @@ const VolatilityGauge = ({ parsed }) => {
         <h4 className="text-base font-bold">Volatility Exposure</h4>
         <span className="text-sm font-mono" style={{ color: label.color }}>{score}%</span>
       </div>
-      <div className="h-2.5 w-full bg-white/5 rounded-full overflow-hidden mb-4">
+      <div className="h-2.5 w-full rounded-full overflow-hidden mb-4" style={{ background: 'var(--color-border)' }}>
         <div 
           className="h-full transition-all duration-1000 ease-out rounded-full"
           style={{ 
@@ -187,7 +189,7 @@ const CategoryDistribution = ({ parsed }) => {
               <span style={{ color: colors[item.name] || 'var(--color-text-secondary)' }}>{item.name}</span>
               <span className="text-text-muted">{item.percent}% ({item.count})</span>
             </div>
-            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+            <div className="h-2 w-full rounded-full overflow-hidden" style={{ background: 'var(--color-border)' }}>
               <div 
                 className="h-full rounded-full transition-all duration-1000 ease-out"
                 style={{ 
@@ -310,11 +312,17 @@ export default function PineGenerator() {
           <button
             key={tab}
             onClick={() => { setActiveTab(tab); setResult(null); }}
-            className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
-              activeTab === tab 
-                ? 'bg-accent/20 text-accent-light border border-accent/40 shadow-[0_0_15px_rgba(99,102,241,0.2)]'
-                : 'bg-white/5 text-text-muted hover:bg-white/10 hover:text-text-secondary border border-transparent'
-            }`}
+            className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all`}
+            style={activeTab === tab ? {
+              background: 'rgba(99,102,241,0.15)',
+              color: 'var(--color-accent-light)',
+              border: '1px solid rgba(99,102,241,0.4)',
+              boxShadow: '0 0 15px rgba(99,102,241,0.15)',
+            } : {
+              background: 'var(--color-bg-secondary)',
+              color: 'var(--color-text-muted)',
+              border: '1px solid var(--color-border)',
+            }}
           >
             {tab === 'create' ? '✨ Create Strategy' : '🔧 Optimize Existing'}
           </button>

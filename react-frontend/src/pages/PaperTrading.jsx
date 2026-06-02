@@ -91,7 +91,7 @@ const PaperTrading = () => {
             </div>
             <div className="card" style={{ flex: 1, minWidth: '200px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
               <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Final Simulated Portfolio</div>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold', color: finalPortfolio >= 100000 ? '#34d399' : '#fb7185' }}>
+              <div style={{ fontSize: '2rem', fontWeight: 'bold', color: finalPortfolio >= 100000 ? '#059669' : '#dc2626' }}>
                 ₹{finalPortfolio.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
             </div>
@@ -122,10 +122,10 @@ const PaperTrading = () => {
                           <span
                             style={{
                               fontWeight: 600,
-                              color: trade.type === 'LONG' ? '#34d399' : '#fb7185',
+                              color: trade.type === 'LONG' ? '#059669' : '#dc2626',
                               padding: '4px 8px',
                               borderRadius: '4px',
-                              backgroundColor: trade.type === 'LONG' ? 'rgba(52, 211, 153, 0.1)' : 'rgba(251, 113, 133, 0.1)'
+                              backgroundColor: trade.type === 'LONG' ? 'rgba(5, 150, 105, 0.1)' : 'rgba(220, 38, 38, 0.1)'
                             }}
                           >
                             {trade.type}
@@ -139,7 +139,7 @@ const PaperTrading = () => {
                           <div>{trade.closeDate}</div>
                           <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>₹{trade.closePrice.toFixed(2)}</div>
                         </td>
-                        <td style={{ fontWeight: 600, color: trade.pnl >= 0 ? '#34d399' : '#fb7185' }}>
+                        <td style={{ fontWeight: 600, color: trade.pnl >= 0 ? '#059669' : '#dc2626' }}>
                           {trade.pnl >= 0 ? '+' : ''}₹{trade.pnl.toFixed(2)}
                         </td>
                         <td style={{ fontWeight: 600 }}>

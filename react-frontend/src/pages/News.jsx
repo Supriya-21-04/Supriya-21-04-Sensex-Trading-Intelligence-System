@@ -24,22 +24,22 @@ const News = () => {
   }
 
   const getSentimentColor = (score) => {
-    if (score > 0.1) return '#34d399'
-    if (score < -0.1) return '#fb7185'
-    return '#94a3b8'
+    if (score > 0.1) return '#059669'
+    if (score < -0.1) return '#dc2626'
+    return '#475569'
   }
 
   const getSentimentText = (score) => {
-    if (score > 0.1) return '😊 Positive (Bullish)'
-    if (score < -0.1) return '😟 Negative (Bearish)'
-    return '😐 Neutral'
+    if (score > 0.1) return 'Positive (Bullish)'
+    if (score < -0.1) return 'Negative (Bearish)'
+    return 'Neutral'
   }
 
   const getSentimentGauge = () => {
     if (!metrics) return null
     const score = metrics.Current_Exponential_Sentiment || 0
     const barColor =
-      score > 0.1 ? '#34d399' : score < -0.1 ? '#fb7185' : '#fbbf24'
+      score > 0.1 ? '#059669' : score < -0.1 ? '#dc2626' : '#b45309'
     return (
       <Plot
         data={[
@@ -50,37 +50,37 @@ const News = () => {
             domain: { x: [0, 1], y: [0, 1] },
             title: {
               text: 'Market Sentiment Score',
-              font: { size: 14, color: '#e2e8f0', family: 'Inter, sans-serif' },
+              font: { size: 14, color: '#0f172a', family: 'Inter, sans-serif' },
             },
             number: {
-              font: { color: '#e0e7ff', family: 'Inter, sans-serif', size: 36 },
+              font: { color: '#4f46e5', family: 'Inter, sans-serif', size: 36 },
             },
             gauge: {
               axis: {
                 range: [-1, 1],
-                tickcolor: '#64748b',
+                tickcolor: '#94a3b8',
                 tickwidth: 1,
-                tickfont: { color: '#94a3b8', size: 11 },
+                tickfont: { color: '#475569', size: 11 },
               },
               bar: { color: barColor, thickness: 0.32 },
-              bgcolor: 'rgba(15,23,42,0.5)',
+              bgcolor: 'rgba(241,245,249,0.8)',
               borderwidth: 1,
-              bordercolor: 'rgba(148,163,184,0.25)',
+              bordercolor: 'rgba(15,23,42,0.12)',
               steps: [
-                { range: [-1, -0.3], color: 'rgba(251, 113, 133, 0.22)' },
-                { range: [-0.3, 0.3], color: 'rgba(148, 163, 184, 0.15)' },
-                { range: [0.3, 1], color: 'rgba(52, 211, 153, 0.22)' },
+                { range: [-1, -0.3], color: 'rgba(220, 38, 38, 0.1)' },
+                { range: [-0.3, 0.3], color: 'rgba(15, 23, 42, 0.04)' },
+                { range: [0.3, 1], color: 'rgba(5, 150, 105, 0.1)' },
               ],
             },
           },
         ]}
         layout={{
-          template: 'plotly_dark',
+          template: 'plotly_white',
           plot_bgcolor: 'rgba(0,0,0,0)',
           paper_bgcolor: 'rgba(0,0,0,0)',
           height: 340,
           margin: { t: 56, b: 32, l: 32, r: 32 },
-          font: { family: 'Inter, sans-serif', color: '#cbd5e1' },
+          font: { family: 'Inter, sans-serif', color: '#475569' },
         }}
         config={{ displayModeBar: false, responsive: true }}
         useResizeHandler={true}
@@ -129,9 +129,6 @@ const News = () => {
               {getSentimentGauge()}
             </div>
             <div className="mood-side">
-              <div className="mood-emoji">
-                {score > 0.1 ? '😊' : score < -0.1 ? '😟' : '😐'}
-              </div>
               <div className="mood-label">{getSentimentText(score)}</div>
               <div className="mood-score">Score: {(score || 0).toFixed(2)}</div>
               <details className="panel" style={{ marginTop: '0.5rem' }}>

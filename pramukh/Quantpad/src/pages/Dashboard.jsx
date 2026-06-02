@@ -66,13 +66,14 @@ export default function Dashboard() {
   const spark3 = useMockSparkline(50)
 
   return (
-    <div className="max-w-7xl mx-auto relative font-sans text-slate-300">
+    <div className="max-w-7xl mx-auto relative font-sans" style={{ color: 'var(--color-text-secondary)' }}>
 
       {/* ── HERO SECTION ── */}
-      <section className="relative overflow-hidden rounded-3xl mb-24 animate-fade-in-up bg-[#0f111a] border border-[#1e2433] shadow-2xl">
+      <section className="relative overflow-hidden rounded-3xl mb-24 animate-fade-in-up shadow-lg"
+        style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}>
         {/* Subtle grid overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-20"
-          style={{ backgroundImage: 'linear-gradient(#1e2433 1px, transparent 1px), linear-gradient(90deg, #1e2433 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute inset-0 pointer-events-none opacity-30"
+          style={{ backgroundImage: 'linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
         <div className="relative z-10 px-8 py-20 lg:px-20 lg:py-28">
           <div className="flex flex-col lg:flex-row items-center gap-16 xl:gap-24">
@@ -89,24 +90,27 @@ export default function Dashboard() {
                 </span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.15] mb-6 text-slate-100">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.15] mb-6"
+                style={{ color: 'var(--color-text-primary)' }}>
                 Research. Backtest. <br />
-                <span className="text-slate-400 italic font-light">Deploy Systems.</span>
+                <span style={{ color: 'var(--color-text-secondary)' }} className="italic font-light">Deploy Systems.</span>
               </h1>
 
-              <p className="text-base md:text-lg max-w-xl mb-10 leading-relaxed text-slate-400">
+              <p className="text-base md:text-lg max-w-xl mb-10 leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
                 A refined quantitative workstation for systematic traders. Analyze strategies, validate signals, and generate execution logic entirely inside your browser. Your data remains completely private.
               </p>
 
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                <Link to="/backtest" className="bg-slate-100 hover:bg-white text-slate-900 font-medium text-sm px-8 py-4 rounded-xl inline-flex items-center gap-2 transition-colors shadow-lg shadow-slate-100/10">
+                <Link to="/backtest" className="font-medium text-sm px-8 py-4 rounded-xl inline-flex items-center gap-2 transition-colors shadow-md"
+                  style={{ background: 'var(--color-accent)', color: '#fff' }}>
                   <span>Start Analysis</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                 </Link>
                 <Link to="/strategies"
-                  className="bg-slate-800/50 hover:bg-slate-800 border border-slate-700 text-slate-300 font-medium text-sm px-8 py-4 rounded-xl inline-flex items-center gap-2 transition-colors">
+                  className="font-medium text-sm px-8 py-4 rounded-xl inline-flex items-center gap-2 transition-colors"
+                  style={{ background: 'var(--color-bg-secondary)', border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)' }}>
                   View Strategy Models
                 </Link>
               </div>
@@ -114,10 +118,11 @@ export default function Dashboard() {
 
             {/* Right: Live-looking mock stats panel - REFINED ASTHETICS */}
             <div className="flex-1 max-w-md w-full">
-              <div className="rounded-2xl p-8 space-y-6 bg-slate-900/60 border border-slate-800 shadow-xl backdrop-blur-sm">
+              <div className="rounded-2xl p-8 space-y-6 shadow-lg backdrop-blur-sm"
+                style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}>
                 {/* Mock account header */}
-                <div className="flex items-center justify-between mb-4 border-b border-slate-800 pb-4">
-                  <span className="text-xs font-semibold tracking-widest text-slate-500">MOCK PORTFOLIO</span>
+                <div className="flex items-center justify-between mb-4 pb-4" style={{ borderBottom: '1px solid var(--color-border)' }}>
+                  <span className="text-xs font-semibold tracking-widest" style={{ color: 'var(--color-text-muted)' }}>MOCK PORTFOLIO</span>
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                     <span className="text-[10px] font-medium text-emerald-400/80 uppercase tracking-wider">Active</span>
@@ -126,7 +131,7 @@ export default function Dashboard() {
 
                 {/* Balance */}
                 <div className="flex items-baseline gap-4">
-                  <span className="text-4xl font-light tracking-tight text-slate-100 font-serif">
+                  <span className="text-4xl font-light tracking-tight font-serif" style={{ color: 'var(--color-text-primary)' }}>
                     ₹<AnimatedNumber value="124850" />
                   </span>
                   <span className="text-sm font-medium text-emerald-400">
@@ -140,14 +145,14 @@ export default function Dashboard() {
                 </div>
 
                 {/* Mini stats row */}
-                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800">
+                <div className="grid grid-cols-3 gap-4 pt-4" style={{ borderTop: '1px solid var(--color-border)' }}>
                   {[
                     { label: 'Expectancy', value: '₹24.50', color: '#10b981', spark: spark2, sc: '#10b981' },
-                    { label: 'Sharpe', value: '1.87', color: '#3b82f6', spark: spark3, sc: '#3b82f6' },
-                    { label: 'Profit Factor', value: '2.14', color: '#f8fafc', spark: spark1, sc: '#94a3b8' },
+                    { label: 'Sharpe', value: '1.87', color: 'var(--color-accent)', spark: spark3, sc: '#6366f1' },
+                    { label: 'Profit Factor', value: '2.14', color: 'var(--color-text-primary)', spark: spark1, sc: 'var(--color-text-muted)' },
                   ].map((s) => (
                     <div key={s.label} className="flex flex-col gap-1">
-                      <p className="text-[10px] uppercase font-medium tracking-wider text-slate-500">{s.label}</p>
+                      <p className="text-[10px] uppercase font-medium tracking-wider" style={{ color: 'var(--color-text-muted)' }}>{s.label}</p>
                       <p className="text-sm font-medium" style={{ color: s.color }}>{s.value}</p>
                       <div className="mt-1 opacity-60">
                         <Sparkline data={s.spark} color={s.sc} height={16} width={90} />
@@ -163,7 +168,8 @@ export default function Dashboard() {
 
       {/* ── STATS BAR - SPACED OUT & ELEGANT ── */}
       <section className="mb-32 animate-fade-in-up stagger-1 px-4 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-8 divide-y md:divide-y-0 md:divide-x divide-slate-800">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-8 divide-y md:divide-y-0 md:divide-x"
+          style={{ borderColor: 'var(--color-border)' }}>
           {[
             { value: '22', suffix: '+', label: 'Validated Models', desc: 'Pre-built systematic strategies ready to test' },
             { value: '50', suffix: '+', label: 'Market Models', desc: 'Complex correlation metrics and historical benchmarks' },
@@ -171,11 +177,11 @@ export default function Dashboard() {
             { value: '0', prefix: '', suffix: 'ms', label: 'Server Latency', desc: 'Runs entirely in your local browser cache' },
           ].map((stat) => (
             <div key={stat.label} className="flex-1 text-center px-4 py-8 md:py-0 w-full">
-              <span className="text-4xl lg:text-5xl font-light font-serif tracking-tight block mb-3 text-slate-200">
+              <span className="text-4xl lg:text-5xl font-light font-serif tracking-tight block mb-3" style={{ color: 'var(--color-text-primary)' }}>
                 {stat.prefix}<AnimatedNumber value={stat.value} suffix={stat.suffix} />
               </span>
-              <span className="text-[13px] font-medium tracking-widest uppercase text-blue-400 block mb-2">{stat.label}</span>
-              <p className="text-sm text-slate-500 max-w-[200px] mx-auto leading-relaxed">{stat.desc}</p>
+              <span className="text-[13px] font-medium tracking-widest uppercase block mb-2" style={{ color: 'var(--color-accent)' }}>{stat.label}</span>
+              <p className="text-sm max-w-[200px] mx-auto leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>{stat.desc}</p>
             </div>
           ))}
         </div>
@@ -184,24 +190,26 @@ export default function Dashboard() {
       {/* ── WORKFLOW - DECONGESTED LIST ── */}
       <section className="mb-32 animate-fade-in-up stagger-2 max-w-4xl mx-auto px-4 lg:px-0">
         <div className="text-center mb-16">
-          <h2 className="text-2xl md:text-3xl font-serif text-slate-200 mb-4">The Processing Pipeline</h2>
-          <p className="text-slate-400 max-w-xl mx-auto">A transparent, step-by-step lifecycle for strict quantitative analysis.</p>
+          <h2 className="text-2xl md:text-3xl font-serif mb-4" style={{ color: 'var(--color-text-primary)' }}>The Processing Pipeline</h2>
+          <p className="max-w-xl mx-auto" style={{ color: 'var(--color-text-secondary)' }}>A transparent, step-by-step lifecycle for strict quantitative analysis.</p>
         </div>
 
         <div className="flex flex-col gap-8">
           {workflow.map((w, i) => (
-            <div key={w.step} className="group relative p-8 md:p-10 rounded-2xl bg-[#0f111a] border border-slate-800 hover:border-slate-700 transition-colors flex flex-col md:flex-row items-start md:items-center gap-6 shadow-sm">
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-blue-400 font-serif text-xl">
+            <div key={w.step} className="group relative p-8 md:p-10 rounded-2xl flex flex-col md:flex-row items-start md:items-center gap-6 shadow-sm transition-colors"
+              style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}>
+              <div className="flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center font-serif text-xl"
+                style={{ background: 'var(--color-bg-secondary)', border: '1px solid var(--color-border)', color: 'var(--color-accent)' }}>
                 {w.step}
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-medium mb-2 text-slate-200">{w.title}</h3>
-                <p className="text-base text-slate-400 leading-relaxed">{w.desc}</p>
+                <h3 className="text-xl font-medium mb-2" style={{ color: 'var(--color-text-primary)' }}>{w.title}</h3>
+                <p className="text-base leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>{w.desc}</p>
               </div>
 
               {/* Optional connector for desktop simply styled */}
               {i < 3 && (
-                <div className="hidden md:block absolute -bottom-8 left-16 w-px h-8 bg-slate-800" />
+                <div className="hidden md:block absolute -bottom-8 left-16 w-px h-8" style={{ background: 'var(--color-border)' }} />
               )}
             </div>
           ))}
@@ -210,15 +218,16 @@ export default function Dashboard() {
 
       {/* ── CTA BANNER - REFINED ── */}
       <section className="animate-fade-in-up stagger-3 mb-16 px-4 lg:px-8">
-        <div className="rounded-3xl px-10 py-16 md:p-20 text-center bg-[#0f111a] border border-slate-800 shadow-2xl relative overflow-hidden">
+        <div className="rounded-3xl px-10 py-16 md:p-20 text-center shadow-lg relative overflow-hidden"
+          style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}>
           {/* Subtle glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500 opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />
 
           <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl font-serif mb-6 text-slate-200">
+            <h2 className="text-3xl lg:text-4xl font-serif mb-6" style={{ color: 'var(--color-text-primary)' }}>
               Initialize Your Workspace
             </h2>
-            <p className="text-lg text-slate-400 mb-10 leading-relaxed text-balance">
+            <p className="text-lg mb-10 leading-relaxed text-balance" style={{ color: 'var(--color-text-secondary)' }}>
               Start parsing your trade history immediately. The environment is sandboxed to your machine, ensuring complete data sovereignty and zero server latency.
             </p>
             <Link to="/backtest" className="bg-blue-600 hover:bg-blue-500 text-white font-medium text-base px-10 py-4 rounded-xl inline-flex items-center gap-3 transition-colors">

@@ -33,9 +33,9 @@ const Home = () => {
 
   const getSignalColor = (signal) => {
     const normalized = normalizeSignal(signal)
-    if (normalized === 'BUY') return '#34d399'
-    if (normalized === 'SELL') return '#fb7185'
-    return '#fbbf24'
+    if (normalized === 'BUY') return '#059669'
+    if (normalized === 'SELL') return '#dc2626'
+    return '#b45309'
   }
 
   const getCandlestickPlot = () => {
@@ -60,27 +60,27 @@ const Home = () => {
         layout={{
           title: {
             text: 'Sensex 100-Day Performance',
-            font: { size: 16, color: '#e2e8f0', family: 'Inter, sans-serif' },
+            font: { size: 16, color: '#0f172a', family: 'Inter, sans-serif' },
           },
           xaxis: {
-            title: { text: 'Date', font: { color: '#94a3b8', size: 12 } },
-            gridcolor: 'rgba(148, 163, 184, 0.15)',
+            title: { text: 'Date', font: { color: '#475569', size: 12 } },
+            gridcolor: 'rgba(15, 23, 42, 0.08)',
             zeroline: false,
-            color: '#94a3b8',
+            color: '#475569',
           },
           yaxis: {
-            title: { text: 'Price (₹)', font: { color: '#94a3b8', size: 12 } },
-            gridcolor: 'rgba(148, 163, 184, 0.15)',
+            title: { text: 'Price (₹)', font: { color: '#475569', size: 12 } },
+            gridcolor: 'rgba(15, 23, 42, 0.08)',
             zeroline: false,
-            color: '#94a3b8',
+            color: '#475569',
           },
-          template: 'plotly_dark',
-          plot_bgcolor: 'rgba(15,23,42,0.35)',
+          template: 'plotly_white',
+          plot_bgcolor: 'rgba(255,255,255,0.9)',
           paper_bgcolor: 'rgba(0,0,0,0)',
           xaxis_rangeslider_visible: false,
           height: 480,
           margin: { t: 48, b: 48, l: 56, r: 24 },
-          font: { family: 'Inter, sans-serif', color: '#cbd5e1' },
+          font: { family: 'Inter, sans-serif', color: '#475569' },
         }}
         config={{ displayModeBar: true, displaylogo: false, responsive: true }}
         useResizeHandler={true}

@@ -88,9 +88,9 @@ export default function PropSimulator() {
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: '#1e293b',
-        titleColor: '#f1f5f9',
-        bodyColor: '#94a3b8',
+        backgroundColor: '#ffffff',
+        titleColor: '#0f172a',
+        bodyColor: '#475569',
         borderColor: 'rgba(99,102,241,0.3)',
         borderWidth: 1,
         cornerRadius: 8,
@@ -101,10 +101,10 @@ export default function PropSimulator() {
       },
     },
     scales: {
-      x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#64748b', font: { family: 'Inter' } } },
+      x: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Inter' } } },
       y: {
-        grid: { color: 'rgba(255,255,255,0.03)' },
-        ticks: { color: '#64748b', font: { family: 'Inter' }, callback: v => `₹${(v / 1000).toFixed(0)}K` }
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { color: '#94a3b8', font: { family: 'Inter' }, callback: v => `₹${(v / 1000).toFixed(0)}K` }
       },
     }
   }

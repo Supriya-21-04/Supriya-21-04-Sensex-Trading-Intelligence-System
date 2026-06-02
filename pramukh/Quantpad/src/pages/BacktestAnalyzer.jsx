@@ -299,11 +299,11 @@ export default function BacktestAnalyzer() {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { labels: { color: '#94a3b8', font: { family: 'Inter' } } },
+      legend: { labels: { color: 'var(--color-text-secondary)', font: { family: 'Inter' } } },
       tooltip: {
-        backgroundColor: '#1e293b',
-        titleColor: '#f1f5f9',
-        bodyColor: '#94a3b8',
+        backgroundColor: '#ffffff',
+        titleColor: '#0f172a',
+        bodyColor: '#475569',
         borderColor: 'rgba(99,102,241,0.3)',
         borderWidth: 1,
         cornerRadius: 8,
@@ -311,8 +311,8 @@ export default function BacktestAnalyzer() {
       },
     },
     scales: {
-      x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#64748b', font: { family: 'Inter' } } },
-      y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#64748b', font: { family: 'Inter' } } },
+      x: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Inter' } } },
+      y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Inter' } } },
     }
   }
 
@@ -418,7 +418,7 @@ export default function BacktestAnalyzer() {
                 </thead>
                 <tbody>
                   {ocrPreview.rows.slice(0, 50).map((row, i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                    <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>
                       <td style={tdStyle}>{i + 1}</td>
                       {ocrPreview.headers.map((h, j) => (
                         <td key={j} style={{ ...tdStyle, padding: '4px 8px' }}>
@@ -509,7 +509,7 @@ export default function BacktestAnalyzer() {
               🔍 View Raw OCR Text
             </summary>
             <pre className="mt-3 text-xs p-4 rounded-lg overflow-auto"
-              style={{ background: 'rgba(0,0,0,0.3)', color: 'var(--color-text-secondary)', maxHeight: '200px', whiteSpace: 'pre-wrap' }}>
+              style={{ background: 'var(--color-bg-secondary)', color: 'var(--color-text-secondary)', maxHeight: '200px', whiteSpace: 'pre-wrap' }}>
               {ocrPreview.rawText}
             </pre>
           </details>

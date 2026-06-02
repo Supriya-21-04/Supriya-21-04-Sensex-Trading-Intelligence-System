@@ -408,7 +408,7 @@ export default function SignalTester() {
                 </thead>
                 <tbody>
                   {ocrPreview.rows.slice(0, 50).map((row, i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                    <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>
                       <td style={tdStyle}>{i + 1}</td>
                       {ocrPreview.headers.map((h, j) => (
                         <td key={j} style={{ ...tdStyle, padding: '4px 8px' }}>
@@ -615,7 +615,7 @@ export default function SignalTester() {
                           </div>
                           <div className="grid grid-cols-2 gap-3">
                             {[entry.result.groupA, entry.result.groupB].map((group, i) => (
-                              <div key={i} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)' }}>
+                              <div key={i} className="p-3 rounded-xl" style={{ background: 'var(--color-bg-secondary)' }}>
                                 <p className="text-xs font-semibold mb-2" style={{ color: 'var(--color-text-primary)' }}>{group.label}</p>
                                 <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
                                   {group.trades} trades •
@@ -627,7 +627,7 @@ export default function SignalTester() {
                                     {' '}${group.avgPnl.toFixed(2)}/trade
                                   </span>
                                 </p>
-                                <div className="mt-2 h-1.5 w-full rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                                <div className="mt-2 h-1.5 w-full rounded-full overflow-hidden" style={{ background: 'var(--color-border)' }}>
                                   <div className="h-full rounded-full transition-all duration-1000" style={{
                                     width: `${Math.min(100, Math.max(0, group.winRate))}%`,
                                     background: group.winRate >= 50 ? 'var(--color-green)' : 'var(--color-red)'
