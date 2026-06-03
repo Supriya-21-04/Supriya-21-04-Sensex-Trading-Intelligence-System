@@ -69,6 +69,8 @@ const Settings = () => {
       'fetch_news.py',
       'score_sentiment.py',
       'feature_engineering.py',
+      'split_data.py',
+      'evaluate_agent.py',
       'live_inference.py',
       'explain_live_signal.py',
     ]
@@ -113,7 +115,7 @@ const Settings = () => {
           <ul>
             <li>
               🚀 <strong>Run All</strong>: Do everything automatically - update market data, fetch news, analyze
-              sentiment, and get today&apos;s AI suggestion
+              sentiment, rebuild splits, run paper trading simulation, and get today&apos;s AI suggestion
             </li>
           </ul>
           <p>
