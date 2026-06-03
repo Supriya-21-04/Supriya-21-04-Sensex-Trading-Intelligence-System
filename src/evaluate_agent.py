@@ -131,10 +131,11 @@ def calculate_metrics(portfolio_values, trades_list=None):
         'Total Trades': len(trades_list) if trades_list else 0
     }
 
-def run_simulation(env_df, strategy_type, ppo_model=None):
+def run_simulation(env_df, strategy_type, ppo_model=None, min_hold_days=8):
     """
     Generalized simulation runner for different strategies.
     strategy_type: 'RL', 'RANDOM', 'MA_CROSSOVER', 'BUY_HOLD'
+    min_hold_days: minimum number of days a position must be held before switching (default 8)
     """
     env = SensexTradingEnv(df=env_df)
     obs, info = env.reset()
@@ -146,6 +147,7 @@ def run_simulation(env_df, strategy_type, ppo_model=None):
     entry_price = 0.0
     current_pos = 0 # 0=Flat, 1=Long, -1=Short
     shares_snapshot = 0
+    days_in_position = 0  # track how long current position has been held
     
     for i in range(len(env_df) - 1):
         if strategy_type == 'RL' and ppo_model is not None:
@@ -172,13 +174,21 @@ def run_simulation(env_df, strategy_type, ppo_model=None):
         if action == 1: target_pos = 1
         elif action == 2: target_pos = -1
 
-        # Evaluate pending closure for PnL
+        # Enforce minimum hold period:
+        # Block ANY exit or reversal until min_hold_days is reached,
+        # including going to FLAT — agent must stay in position.
+        if current_pos != 0 and days_in_position < min_hold_days:
+            target_pos = current_pos  # locked in — ignore all signals
+            action = 1 if current_pos == 1 else 2
+
+        # Close existing position if switching/exiting
         if current_pos != 0 and current_pos != target_pos:
             if current_pos == 1:
                 pnl = (curr_price - entry_price) * shares_snapshot - env.TRADE_FEE
             elif current_pos == -1:
                 pnl = (entry_price - curr_price) * shares_snapshot - env.TRADE_FEE
-            completed_trades.append({'pnl': pnl})
+            completed_trades.append({'pnl': pnl, 'hold_days': days_in_position})
+            days_in_position = 0  # reset on position change
             
         obs, reward, done, truncated, info = env.step(action)
         
@@ -186,18 +196,23 @@ def run_simulation(env_df, strategy_type, ppo_model=None):
         if target_pos != 0 and current_pos != target_pos:
             entry_price = curr_price
             shares_snapshot = info['shares_held']
+            days_in_position = 1  # first day in new position
+        elif target_pos != 0:
+            days_in_position += 1  # still in same position
+        else:
+            days_in_position = 0  # flat
             
         current_pos = target_pos
         
         portfolio_history.append(info['portfolio_value'])
         
         if strategy_type == 'RL':
-            act_str = "FLAT" if action==0 else ("LONG" if action==1 else "SHORT")
+            act_str = "FLAT" if target_pos==0 else ("LONG" if target_pos==1 else "SHORT")
             trade_log.append({
                 "Date": date_stamp,
                 "Action_Target": act_str,
                 "Price": curr_price,
-                "Position_State": info.get('position_state', current_pos),
+                "Position_State": target_pos,
                 "Portfolio_Value": info['portfolio_value']
             })
 

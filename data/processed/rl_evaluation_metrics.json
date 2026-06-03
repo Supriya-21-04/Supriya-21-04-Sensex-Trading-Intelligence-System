@@ -2,13 +2,13 @@
     "evaluation_window": "test.csv (out-of-sample split)",
     "strategies": {
         "RL Agent (Ours)": {
-            "Final Value": 93682.62109375,
-            "Total Return (%)": -6.3173789062500045,
-            "CAGR (%)": -1.130047919327981,
-            "Sharpe Ratio": -0.06064767968167859,
-            "Max Drawdown (%)": -24.36147969923069,
-            "Win Rate (%)": 50.0,
-            "Total Trades": 230
+            "Final Value": 110109.859375,
+            "Total Return (%)": 10.109859374999996,
+            "CAGR (%)": 1.691388487474943,
+            "Sharpe Ratio": 0.21579393311541778,
+            "Max Drawdown (%)": -25.359250726376857,
+            "Win Rate (%)": 57.377049180327866,
+            "Total Trades": 61
         },
         "Buy & Hold (Index)": {
             "Final Value": 143383.2578125,
@@ -29,24 +29,24 @@
             "Total Trades": 9
         },
         "Random Monkey": {
-            "Final Value": 66308.486328125,
-            "Total Return (%)": -33.69151367187499,
-            "CAGR (%)": -6.905151217967398,
-            "Sharpe Ratio": -0.5674113780934036,
-            "Max Drawdown (%)": -36.71819980785539,
-            "Win Rate (%)": 30.191693290734822,
-            "Total Trades": 626
+            "Final Value": 68491.505859375,
+            "Total Return (%)": -31.508494140624997,
+            "CAGR (%)": -6.3785050635331135,
+            "Sharpe Ratio": -0.4245227939222413,
+            "Max Drawdown (%)": -36.96772218442988,
+            "Win Rate (%)": 36.12903225806451,
+            "Total Trades": 155
         }
     },
     "rl_directional_accuracy": {
         "Evaluated Steps": 1446,
-        "Directional Accuracy (LONG/SHORT only) (%)": 48.79032258064516,
-        "LONG Accuracy (%)": 58.333333333333336,
-        "SHORT Accuracy (%)": 43.90243902439025,
+        "Directional Accuracy (LONG/SHORT only) (%)": 53.31991951710262,
+        "LONG Accuracy (%)": 62.5,
+        "SHORT Accuracy (%)": 49.275362318840585,
         "Action Mix (%)": {
-            "FLAT": 82.84923928077455,
-            "LONG": 5.809128630705394,
-            "SHORT": 11.341632088520056
+            "FLAT": 65.62932226832642,
+            "LONG": 10.511756569847856,
+            "SHORT": 23.858921161825727
         }
     }
 }
