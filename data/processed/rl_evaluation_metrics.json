@@ -2,51 +2,51 @@
     "evaluation_window": "test.csv (out-of-sample split)",
     "strategies": {
         "RL Agent (Ours)": {
-            "Final Value": 86132.953125,
-            "Total Return (%)": -13.867046875,
-            "CAGR (%)": -15.916113157217481,
-            "Sharpe Ratio": -1.9213364111660467,
-            "Max Drawdown (%)": -16.229609375000003,
-            "Win Rate (%)": 38.80597014925373,
-            "Total Trades": 67
+            "Final Value": 93682.62109375,
+            "Total Return (%)": -6.3173789062500045,
+            "CAGR (%)": -1.130047919327981,
+            "Sharpe Ratio": -0.06064767968167859,
+            "Max Drawdown (%)": -24.36147969923069,
+            "Win Rate (%)": 50.0,
+            "Total Trades": 230
         },
         "Buy & Hold (Index)": {
-            "Final Value": 92430.40625,
-            "Total Return (%)": -7.569593750000003,
-            "CAGR (%)": -8.735657383656658,
-            "Sharpe Ratio": -0.8221187108621775,
-            "Max Drawdown (%)": -12.056951169027801,
+            "Final Value": 143383.2578125,
+            "Total Return (%)": 43.383257812500005,
+            "CAGR (%)": 6.476738400129833,
+            "Sharpe Ratio": 0.5121801839635576,
+            "Max Drawdown (%)": -34.71792099740917,
             "Win Rate (%)": 0.0,
             "Total Trades": 0
         },
         "MA Crossover": {
-            "Final Value": 92217.640625,
-            "Total Return (%)": -7.782359375000003,
-            "CAGR (%)": -8.97957763441437,
-            "Sharpe Ratio": -0.8508903021830031,
-            "Max Drawdown (%)": -10.409095192730264,
-            "Win Rate (%)": 0.0,
-            "Total Trades": 1
+            "Final Value": 77777.919921875,
+            "Total Return (%)": -22.222080078124996,
+            "CAGR (%)": -4.282299757808683,
+            "Sharpe Ratio": -0.22746048026110802,
+            "Max Drawdown (%)": -50.58721422494333,
+            "Win Rate (%)": 33.33333333333333,
+            "Total Trades": 9
         },
         "Random Monkey": {
-            "Final Value": 109398.6171875,
-            "Total Return (%)": 9.39861718749999,
-            "CAGR (%)": 10.995165615635871,
-            "Sharpe Ratio": 1.315399200067017,
-            "Max Drawdown (%)": -5.8072790240635115,
-            "Win Rate (%)": 52.74725274725275,
-            "Total Trades": 91
+            "Final Value": 66308.486328125,
+            "Total Return (%)": -33.69151367187499,
+            "CAGR (%)": -6.905151217967398,
+            "Sharpe Ratio": -0.5674113780934036,
+            "Max Drawdown (%)": -36.71819980785539,
+            "Win Rate (%)": 30.191693290734822,
+            "Total Trades": 626
         }
     },
     "rl_directional_accuracy": {
-        "Evaluated Steps": 216,
-        "Directional Accuracy (LONG/SHORT only) (%)": 37.66233766233766,
-        "LONG Accuracy (%)": 36.666666666666664,
-        "SHORT Accuracy (%)": 38.297872340425535,
+        "Evaluated Steps": 1446,
+        "Directional Accuracy (LONG/SHORT only) (%)": 48.79032258064516,
+        "LONG Accuracy (%)": 58.333333333333336,
+        "SHORT Accuracy (%)": 43.90243902439025,
         "Action Mix (%)": {
-            "FLAT": 64.35185185185185,
-            "LONG": 13.88888888888889,
-            "SHORT": 21.75925925925926
+            "FLAT": 82.84923928077455,
+            "LONG": 5.809128630705394,
+            "SHORT": 11.341632088520056
         }
     }
 }

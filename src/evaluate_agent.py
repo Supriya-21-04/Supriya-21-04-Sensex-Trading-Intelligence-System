@@ -209,21 +209,21 @@ def run_simulation(env_df, strategy_type, ppo_model=None):
 
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    # Phase 2: Use the designated Test Split
-    test_path = os.path.join(base_dir, '..', 'data', 'splits', 'test.csv')
+    # Use master_dataset.csv instead of test split to always have latest data
+    master_path = os.path.join(base_dir, '..', 'data', 'processed', 'master_dataset.csv')
     model_path = os.path.join(base_dir, '..', 'models', 'ppo_sensex_bot.zip')
     output_dir = os.path.join(base_dir, '..', 'data', 'processed')
     os.makedirs(output_dir, exist_ok=True)
     
-    if not os.path.exists(test_path):
-        logging.error(f"Test split not found at {test_path}. Run split_data.py first.")
+    if not os.path.exists(master_path):
+        logging.error(f"Master dataset not found at {master_path}. Run feature_engineering.py first.")
         return
         
-    logging.info(f"Loading Test Dataset: {os.path.normpath(test_path)}")
-    test_df = pd.read_csv(test_path)
+    logging.info(f"Loading Master Dataset: {os.path.normpath(master_path)}")
+    test_df = pd.read_csv(master_path)
     
     if test_df.empty:
-        logging.error("Test dataframe is empty! Cannot run validation.")
+        logging.error("Master dataframe is empty! Cannot run validation.")
         return
 
     # 1. Evaluate RL Agent
