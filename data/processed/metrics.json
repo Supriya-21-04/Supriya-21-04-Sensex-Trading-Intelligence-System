@@ -1,110 +1,123 @@
 {
-    "Current_Exponential_Sentiment": -0.027151699755384187,
+    "Current_Exponential_Sentiment": 0.036174034924643494,
     "Live_Inference": {
-        "data_date": "2026-05-27",
-        "prediction_date": "2026-05-29",
-        "signal": "BUY",
-        "action_code": 1,
+        "data_date": "2026-06-02",
+        "prediction_date": "2026-06-03",
+        "signal": "SELL",
+        "action_code": 2,
         "confidence": "High (PPO Policy Consensus)",
-        "explanation": "SUMMARY\n- The model gives a BUY signal, which means it expects the Sensex to move up in the near term.\n\nWHY THE MODEL IS SAYING THIS\n- Because recent price action shows buyers are stronger than sellers, the short-term direction is upward.\n- Because the last few sessions show a steady upward push, confidence in this signal is higher.\n- Because market swings are moderate, risk is present but more controlled.\n\nWHAT THE NEWS IS SAYING\n- Headlines like \"India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore\" and \"India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore\" are affecting confidence.\n- Because news mood is mostly negative, it is adding pressure on prices.\n\nWHAT COULD GO WRONG\n- This signal can fail if strong positive news appears or if volatility cools quickly and buyers return.\n\nBOTTOM LINE FOR A BEGINNER\n- Why BUY: sellers vs buyers balance, trend direction, and news mood all point this way right now.\n- What to do now: consider small step-by-step buying, not one large entry.\n- Sensex closed around 75867.80 after a -0.19% move in a normal-volatility setup.",
+        "explanation": "SUMMARY\n- The model gives a SELL signal, which means it expects the Sensex to move down in the near term.\n\nWHY THE MODEL IS SAYING THIS\n- Because recent price action shows sellers are stronger than buyers, the short-term direction is downward.\n- Because the last few sessions show a downward drift, confidence in this signal is higher.\n- Because market swings are moderate, risk is present but more controlled.\n\nWHAT THE NEWS IS SAYING\n- Headlines like \"IT stocks surge; TCS jumps 6.5 pc\" and \"Sensex Prediction for Wednesday by experts: Index rebound set to face vital 75000 hurdle on June 3; key technical levels to watch\" are affecting confidence.\n- Because news mood is mostly positive, it is supporting prices.\n\nWHAT COULD REVERSE THIS SIGNAL\n- This signal can fail if strong positive news appears or if volatility cools quickly and buyers return.\n\nBOTTOM LINE FOR A BEGINNER\n- Why SELL: sellers vs buyers balance, trend direction, and news mood all point this way right now.\n- What to do now: avoid fresh buying and wait for stability before entering.\n- Sensex closed around 74649.84 after a 0.52% move in a normal-volatility setup.",
         "key_factors": [
-            "The market moved down by 0.19% today, but the model sees this as a buying opportunity.",
-            "The momentum indicators suggest the market is not moving too fast up or down, which is a good sign.",
-            "The trend indicators show that big investors are buying, which is a positive sign."
+            "The market moved 0.52% today, which is a relatively small change.",
+            "The momentum indicators suggest the market is losing speed.",
+            "The trend indicators show downward momentum is stronger than upward momentum.",
+            "The mean sentiment score today is negative, indicating bad news dominates."
         ],
         "explanation_details": {
             "bullish_points": [
-                "The market has been moving down recently, but the model expects it to bounce back.",
-                "The news headlines are positive, with a net inflow of Rs 25,088 crore in the PMS industry.",
-                "The mean sentiment score today is slightly negative, but the model sees this as a buying opportunity."
+                "What could reverse this signal is if the market sees a strong rebound above the 75000 hurdle, as predicted by experts."
             ],
             "bearish_points": [
-                "The market is still moving down, and the trend indicators show downward momentum.",
-                "The volatility is normal, but the model expects it to increase soon."
+                "The market is losing speed, which could lead to a decline.",
+                "Downward momentum is stronger than upward momentum, indicating a potential downtrend.",
+                "Bad news dominates the market sentiment, which could weigh on the market."
             ],
             "risk_flags": [
-                "The market is still moving down, and the model expects it to bounce back soon."
+                "The market is experiencing relatively high volatility, which can lead to sudden price swings.",
+                "The Average True Range (ATR) is high, indicating uncertainty in the market."
             ],
             "influential_news": [
                 {
-                    "date": "2026-05-28",
-                    "headline": "India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore",
+                    "date": "2026-06-02",
+                    "headline": "IT stocks surge; TCS jumps 6.5 pc",
                     "sentiment": 1.0,
-                    "why_it_matters": "This positive news about the PMS industry is a good sign for the market."
+                    "why_it_matters": "This news could have a positive impact on the market, but it's not strong enough to override the bearish signals."
+                },
+                {
+                    "date": "2026-06-02",
+                    "headline": "Sensex Prediction for Wednesday by experts: Index rebound set to face vital 75000 hurdle on June 3; key technical levels to watch",
+                    "sentiment": 0.9337,
+                    "why_it_matters": "This news highlights a potential hurdle for the market, which could lead to a decline."
+                },
+                {
+                    "date": "2026-06-02",
+                    "headline": "ONDC to raise Rs 430 Cr from SBI, Zoho, Uber, Paytm, Amul and others",
+                    "sentiment": 0.8215,
+                    "why_it_matters": "This news is neutral and doesn't have a significant impact on the market."
                 }
             ]
         },
         "context_snapshot": {
-            "date": "2026-05-27",
-            "close": 75867.796875,
-            "high": 76224.6796875,
-            "low": 75748.2109375,
-            "open": 75939.859375,
-            "volume": 26000.0,
-            "rsi_14": 47.61073021615166,
-            "stoch_k": 49.34072263648676,
-            "stoch_d": 49.61934259338212,
-            "macd": -342.64949434464506,
-            "atr_14": 987.8838983082254,
-            "volatility_ratio": 1.3021122781987011,
+            "date": "2026-06-02",
+            "close": 74649.84375,
+            "high": 74862.1875,
+            "low": 73815.1171875,
+            "open": 73945.203125,
+            "volume": 19300.0,
+            "rsi_14": 41.48042930166321,
+            "stoch_k": 29.68526863855348,
+            "stoch_d": 20.074110726461857,
+            "macd": -510.8946283777768,
+            "atr_14": 1043.4127851296178,
+            "volatility_ratio": 1.397742758342502,
             "regime_flag": 0,
-            "obv": 88885200.0,
-            "sma_50": 76016.5075,
-            "sma_200": 81168.2039453125,
-            "sentiment": -0.1351908762279633,
-            "returns": -0.0018669491415672,
-            "vol_change": 1.2608695652173911,
+            "obv": 88871500.0,
+            "sma_50": 75968.3421875,
+            "sma_200": 81075.02421875,
+            "sentiment": 0.171735260793079,
+            "returns": 0.0051503121114386,
+            "vol_change": 0.4296296296296296,
             "target_return": 0.0,
-            "close_z": -0.6539490128814,
-            "rsi_14_z": -0.1842126507033631,
-            "stoch_k_z": 0.0514716980662593,
-            "macd_z": -0.6885574016972845,
-            "atr_14_z": -1.517609552140054,
-            "volatility_ratio_z": -1.5978508306830914,
-            "obv_z": -1.142344438881666,
-            "sma_200_z": -1.6386323568500023,
-            "returns_z": -0.1673657461035887,
-            "vol_change_z": 1.8573561322853815
+            "close_z": -1.258305787312001,
+            "rsi_14_z": -0.9969158471318956,
+            "stoch_k_z": -0.4186187339550335,
+            "macd_z": -1.155983586115939,
+            "atr_14_z": -1.0795507676972596,
+            "volatility_ratio_z": -0.9947478803925596,
+            "obv_z": -1.3255091532837795,
+            "sma_200_z": -1.6242524650424828,
+            "returns_z": 0.7885699198457786,
+            "vol_change_z": 0.5084511842477257
         },
         "top_news_context": [
             {
-                "date": "2026-05-28",
-                "headline": "India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore",
+                "date": "2026-06-02",
+                "headline": "IT stocks surge; TCS jumps 6.5 pc",
                 "sentiment": 1.0,
-                "source": "NewsData.io (thehawk_in)"
+                "source": "NewsData.io (newsdrum_in)"
             },
             {
-                "date": "2026-05-28",
-                "headline": "India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore",
-                "sentiment": 1.0,
-                "source": "NewsData.io (thehawk_in)"
+                "date": "2026-06-02",
+                "headline": "Sensex Prediction for Wednesday by experts: Index rebound set to face vital 75000 hurdle on June 3; key technical levels to watch",
+                "sentiment": 0.9337,
+                "source": "NewsData.io (etnownews)"
             },
             {
-                "date": "2026-05-28",
-                "headline": "India's PMS industry sees Rs 25,088 crore net inflow in April; AUM touches Rs 42.2 lakh crore",
-                "sentiment": 1.0,
-                "source": "NewsData.io (thehawk_in)"
+                "date": "2026-06-02",
+                "headline": "ONDC to raise Rs 430 Cr from SBI, Zoho, Uber, Paytm, Amul and others",
+                "sentiment": 0.8215,
+                "source": "NewsData.io (entrackr)"
             },
             {
-                "date": "2026-05-22",
-                "headline": "Sensex Today | Stock Market Live Updates: Nifty futures hint at a positive start as mkt aims to close week higher - LinkedIn",
-                "sentiment": 0.8606,
-                "source": "GNews (LinkedIn)"
+                "date": "2026-06-03",
+                "headline": "SENSEX drops over 600 points, NIFTY50 opens at 23,415 as IT stocks drag down indices; TCS, HCL Tech among top losers - Upstox",
+                "sentiment": -0.7838,
+                "source": "GNews (Upstox)"
             },
             {
-                "date": "2026-05-26",
-                "headline": "Sensex today | Stock Market Highlights: Sensex falls 479 points, Nifty slips below 23,950 as rupee weakens",
-                "sentiment": 0.8404,
-                "source": "NewsAPI (BusinessLine)"
+                "date": "2026-06-02",
+                "headline": "Rupee falls 17 paise to close at 95.36 against US dollar",
+                "sentiment": -0.7701,
+                "source": "NewsData.io (newsdrum_in)"
             },
             {
-                "date": "2026-05-26",
-                "headline": "Sensex today | Stock Market Highlights: Sensex falls 479 points, Nifty slips below 23,950 as rupee weakens",
-                "sentiment": 0.8404,
-                "source": "NewsAPI (BusinessLine)"
+                "date": "2026-05-27",
+                "headline": "Stock Market Today : Benchmark indices close firmer; Sensex settles 355 points higher at 77,269, Nifty up 121 points at 24,119 - BusinessLine",
+                "sentiment": 0.7161,
+                "source": "GNews (BusinessLine)"
             }
         ],
         "explanation_source": "groq:llama-3.1-8b-instant",
-        "explanation_generated_at": "2026-05-29T03:55:24Z"
+        "explanation_generated_at": "2026-06-03T07:13:49Z"
     }
 }
